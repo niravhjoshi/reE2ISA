@@ -22,7 +22,7 @@ class PersonListItem extends Component {
                         <Table.Cell>{person.PersonName}</Table.Cell>
                         <Table.Cell>{person.Birthdate}<Icon name="clock" /></Table.Cell>
                         <Table.Cell>{person.Sex}</Table.Cell>
-                        <Table.Cell><Item.Image size="circular" circular src={person.PersonImage} /></Table.Cell>
+                        <Table.Cell><Item.Image size="small" src={person.PersonImage} /></Table.Cell>
                         <Table.Cell> <Button inverted color='teal'>View</Button></Table.Cell>
                     </Table.Row>
 

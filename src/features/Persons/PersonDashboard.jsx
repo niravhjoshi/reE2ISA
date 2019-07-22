@@ -24,19 +24,35 @@ const personsfromDB = [
 
 
 class PersonDashboard extends Component {
+    state = {
+        persons: personsfromDB,
+        isOpen: false
+    }
+
+
+    hadleIsOpenToggle = () => {
+        this.setState(({ isOpen }) => ({
+            isOpen: !isOpen
+        })
+        )
+    }
+
     render() {
+
+        const { persons, isOpen } = this.state;
+
         return (
-            <div>
-                <Grid>
-                    <Grid.Column width={10}>
-                        <PersonList events={personsfromDB} />
-                    </Grid.Column>
-                    <Grid.Column width={6}>
-                        <Button positive content='Create Person' />
-                        <PersonForm />
-                    </Grid.Column>
-                </Grid>
-            </div>
+
+            <Grid>
+                <Grid.Column width={10}>
+                    <PersonList events={persons} />
+                </Grid.Column>
+                <Grid.Column width={6}>
+                    <Button positive content='Create Person' onClick={this.hadleIsOpenToggle} />
+                    {isOpen && <PersonForm cancelFormOpen={this.hadleIsOpenToggle} />}
+                </Grid.Column>
+            </Grid>
+
         )
     }
 }
