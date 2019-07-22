@@ -1,16 +1,19 @@
-import React,{Component} from 'react';
-import {Button} from 'semantic-ui-react';
-import PersonDashboard from '../../features/PersonDashboard/PersonDashboard';
+import React,{Component,Fragment} from 'react';
+import PersonDashboard from '../../features/Persons/PersonDashboard';
+import NavBar from '../../features/nav/NavBar/NavBar';
+import { Container } from 'semantic-ui-react';
 
 
 class App extends Component{
     render(){
 
         return(
-            <div>
-                <h1>Re-Events</h1>
+        <Fragment>
+            <NavBar/>
+           <Container className='main'>
                 <PersonDashboard />              
-            </div>
+           </Container>
+           </Fragment>
         )
     }
 }
