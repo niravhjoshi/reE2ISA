@@ -1,38 +1,76 @@
 import React, { Component } from 'react'
-import { Segment, Form, Radio, Button } from 'semantic-ui-react';
+import { Segment, Form, Button, Checkbox } from 'semantic-ui-react';
 
 class PersonForm extends Component {
+    state = {
+        FullName: '',
+        BirthDate: '',
+        Sex: '',
+        ImageURL: '',
+
+    }
+
+    handleSubmitMethod = event => {
+        event.preventDefault();
+        console.log(this.state);
+    }
+
+    handleInputFormChange = ({ target: { name, value } }) => {
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleRadioiChange = (e, { value }) => this.setState({ Sex: value })
+
     render() {
 
         const { cancelFormOpen } = this.props;
+        const { FullName, BirthDate, ImageURL } = this.state;
         return (
             <Segment>
-                <Form>
+                <Form onSubmit={this.handleSubmitMethod} autoComplete='Off'>
                     <Form.Field>
                         <label>Person Full Name</label>
-                        <input placeholder="Full Name" />
+                        <input name='FullName' onChange={this.handleInputFormChange} value={FullName} placeholder="Full Name" />
                     </Form.Field>
                     <Form.Field>
                         <label>Birth Date Name</label>
-                        <input type="date" placeholder="Birth Date" />
+                        <input name='BirthDate' value={BirthDate} onChange={this.handleInputFormChange} type="date" placeholder="Birth Date" />
+                    </Form.Field>
+
+
+                    <Form.Field>
+                        <Checkbox
+                            radio
+                            label='Male'
+                            name='Sex1'
+                            value="Male"
+                            checked={this.state.Sex === 'Male'}
+                            onChange={this.handleRadioiChange}
+                        />
                     </Form.Field>
                     <Form.Field>
-                        <label>Person Sex</label>
-                        <Radio label="Male" name="radioGroup" value="Male" />
-                        <Radio label="Female" name="radioGroup" value="Female" />
-                        <Radio label="NA" name="radioGroup" value="NA" />
+                        <Checkbox
+                            radio
+                            label='Female'
+                            name='Sex1'
+                            value="Female"
+                            checked={this.state.Sex === 'Female'}
+                            onChange={this.handleRadioiChange}
+                        />
                     </Form.Field>
 
                     <Form.Field>
                         <label>Person Image</label>
-                        <input placeholder="Image URL" />
+                        <input name="ImageURL" value={ImageURL} onChange={this.handleInputFormChange} placeholder="Image URL" />
                     </Form.Field>
                     <Button positive type="submit">
                         Submit
                      </Button>
                     <Button type="button" onClick={cancelFormOpen}>Cancel</Button>
                 </Form>
-            </Segment>
+            </Segment >
         )
     }
 }

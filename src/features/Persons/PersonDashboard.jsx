@@ -42,7 +42,6 @@ class PersonDashboard extends Component {
         const { persons, isOpen } = this.state;
 
         return (
-
             <Grid>
                 <Grid.Column width={10}>
                     <PersonList events={persons} />
