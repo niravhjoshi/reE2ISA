@@ -7,12 +7,27 @@ class PersonForm extends Component {
         BirthDate: '',
         Sex: '',
         ImageURL: '',
+    };
 
+    //Life Cycle Methods
+    componentDidMount() {
+        if (this.props.selectedPerson !== null) {
+            this.setState(
+                { ...this.props.selectedPerson }
+            )
+        }
     }
 
     handleSubmitMethod = event => {
         event.preventDefault();
         console.log(this.state);
+        if (this.state.id) {
+            this.props.updatedPerson(this.state);
+        }
+        else {
+            this.props.createPerson(this.state);
+        }
+
     }
 
     handleInputFormChange = ({ target: { name, value } }) => {
@@ -21,8 +36,9 @@ class PersonForm extends Component {
         });
     }
 
-    handleRadioiChange = (e, { value }) => this.setState({ Sex: value })
-
+    handleRadioiChange = (e, { value }) => {
+        this.setState({ Sex: value })
+    }
     render() {
 
         const { cancelFormOpen } = this.props;
@@ -57,6 +73,16 @@ class PersonForm extends Component {
                             name='Sex1'
                             value="Female"
                             checked={this.state.Sex === 'Female'}
+                            onChange={this.handleRadioiChange}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <Checkbox
+                            radio
+                            label='None'
+                            name='Sex1'
+                            value="None"
+                            checked={this.state.Sex === 'None'}
                             onChange={this.handleRadioiChange}
                         />
                     </Form.Field>

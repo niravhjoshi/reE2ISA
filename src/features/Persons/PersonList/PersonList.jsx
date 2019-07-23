@@ -3,10 +3,11 @@ import PersonListItem from './PersonListItem';
 
 class PersonList extends Component {
     render() {
+        const { persons, selectPerson, deletePerson } = this.props;
         return (
             <Fragment>
-                {this.props.events.map(person => (
-                    <PersonListItem key={person.id} person={person} />
+                {persons.map(person => (
+                    <PersonListItem key={person.id} person={person} selectPerson={selectPerson} deletePerson={deletePerson} />
                 ))}
 
 

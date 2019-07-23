@@ -4,7 +4,7 @@ import { Table, Item, Icon, Button } from 'semantic-ui-react';
 class PersonListItem extends Component {
     render() {
 
-        const { person } = this.props;
+        const { person, selectPerson, deletePerson } = this.props;
         return (
             <Table celled>
                 <Table.Header>
@@ -19,11 +19,14 @@ class PersonListItem extends Component {
 
                 <Table.Body>
                     <Table.Row>
-                        <Table.Cell>{person.PersonName}</Table.Cell>
-                        <Table.Cell>{person.Birthdate}<Icon name="clock" /></Table.Cell>
+                        <Table.Cell>{person.FullName}</Table.Cell>
+                        <Table.Cell>{person.BirthDate}<Icon name="clock" /></Table.Cell>
                         <Table.Cell>{person.Sex}</Table.Cell>
-                        <Table.Cell><Item.Image size="tiny" src={person.PersonImage} /></Table.Cell>
-                        <Table.Cell> <Button inverted color='teal'>View</Button></Table.Cell>
+                        <Table.Cell><Item.Image size="tiny" src={person.ImageURL} /></Table.Cell>
+                        <Table.Cell>
+                            <Button inverted color='teal' floated="right" onClick={() => selectPerson(person)}>View</Button>
+                            <Button inverted color='red' floated="right" onClick={() => deletePerson(person.id)}>Delete</Button>
+                        </Table.Cell>
                     </Table.Row>
 
                 </Table.Body>
