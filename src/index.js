@@ -4,14 +4,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter} from 'react-router-dom';
 
 const rootElement = document.getElementById('root');
 
 const render = () => {
-    ReactDOM.render(<App/>,rootElement);
+    ReactDOM.render(
+        <BrowserRouter>
+        <App/>
+        </BrowserRouter>,
+        rootElement);
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+//ReactDOM.render(<App />, document.getElementById('root'));
 
 if(module.hot){
     module.hot.accept('./app/layout/App',() => {
