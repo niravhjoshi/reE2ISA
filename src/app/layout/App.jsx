@@ -20,28 +20,36 @@ class App extends Component {
 
         return (
             <Fragment>
-                <NavBar />
+                <Route exact path='/' component={Homepage} />
+                <Route path='/(.+)' render={() => (
+                    <Fragment>
+                        <NavBar />
 
-                <Container className='main'>
-                    <Route exact path='/' component={Homepage} />
-                    <Route path='/Persons' component={PersonDashboard} />
-                    <Route path='/Persons/:id' component={PersonsDetail} />
-                    <Route path='/CreatePerson' component={PersonForm} />
-                    <Route path='/Shares' component={SharesDetailedPage} />
-                    <Route path='/Shares/:id' component={SharesDetailedPage} />
-                    <Route path='/Investments' component={InvestmentDetailedPage} />
-                    <Route path='/Investments/:id' component={InvestmentDetailedPage} />
-                    <Route path='/Earnings' component={EarningDetailedPage} />
-                    <Route path='/Earnings/:id' component={EarningDetailedPage} />
-                    <Route path='/Expenses' component={ExpensesDetailedPage} />
-                    <Route path='/Expenses/:id' component={ExpensesDetailedPage} />
-                    <Route path='/Analytics' component={AnalyticsDetailedpage} />
-                    <Route path='/Settings' component={SettingsDashboard} />
-                    <Route path='/AccountPage/:id' component={AccountPage} />
+                        <Container className='main'>
 
-                </Container>
+                            <Route path='/Persons' component={PersonDashboard} />
+                            <Route path='/Persons/:id' component={PersonsDetail} />
+                            <Route path='/CreatePerson' component={PersonForm} />
+                            <Route path='/Shares' component={SharesDetailedPage} />
+                            <Route path='/Shares/:id' component={SharesDetailedPage} />
+                            <Route path='/Investments' component={InvestmentDetailedPage} />
+                            <Route path='/Investments/:id' component={InvestmentDetailedPage} />
+                            <Route path='/Earnings' component={EarningDetailedPage} />
+                            <Route path='/Earnings/:id' component={EarningDetailedPage} />
+                            <Route path='/Expenses' component={ExpensesDetailedPage} />
+                            <Route path='/Expenses/:id' component={ExpensesDetailedPage} />
+                            <Route path='/Analytics' component={AnalyticsDetailedpage} />
+                            <Route path='/Settings' component={SettingsDashboard} />
+                            <Route path='/AccountPage/:id' component={AccountPage} />
+
+                        </Container>
+                    </Fragment>
+
+                )}
+                />
             </Fragment>
         )
+
     }
 }
 

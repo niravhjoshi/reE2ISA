@@ -13,7 +13,7 @@ class PersonListItem extends Component {
                         <Table.HeaderCell>BirthDate</Table.HeaderCell>
                         <Table.HeaderCell>Sex</Table.HeaderCell>
                         <Table.HeaderCell>Image</Table.HeaderCell>
-                        <Table.HeaderCell> </Table.HeaderCell>
+                        <Table.HeaderCell></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -22,10 +22,10 @@ class PersonListItem extends Component {
                         <Table.Cell>{person.FullName}</Table.Cell>
                         <Table.Cell>{person.BirthDate}<Icon name="clock" /></Table.Cell>
                         <Table.Cell>{person.Sex}</Table.Cell>
-                        <Table.Cell><Item.Image size="tiny" src={person.ImageURL} /></Table.Cell>
+                        <Table.Cell> <Item.Image size="small" src={person.ImageURL} /></Table.Cell>
                         <Table.Cell>
-                            <Button inverted color='teal' floated="right" onClick={() => selectPerson(person)}>View</Button>
-                            <Button inverted color='red' floated="right" onClick={() => deletePerson(person.id)}>Delete</Button>
+                            <Button inverted color='teal' onClick={() => selectPerson(person)}>View</Button>
+                            <Button inverted color='red' onClick={() => deletePerson(person.id)}>Delete</Button>
                         </Table.Cell>
                     </Table.Row>
 
