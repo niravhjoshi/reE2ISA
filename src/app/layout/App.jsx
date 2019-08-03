@@ -13,6 +13,7 @@ import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
 import AccountPage from '../../features/Users/Settings/AccountPage';
 import PersonForm from '../../features/Persons/PersonForm/PersonForm';
 import Homepage from '../../features/Home/Homepage';
+import TestComponent from '../../features/testarea/TestComponent';
 
 
 class App extends Component {
@@ -41,7 +42,7 @@ class App extends Component {
                             <Route path='/Analytics' component={AnalyticsDetailedpage} />
                             <Route path='/Settings' component={SettingsDashboard} />
                             <Route path='/AccountPage/:id' component={AccountPage} />
-
+                            <Route path='/test' component={TestComponent} />
                         </Container>
                     </Fragment>
 

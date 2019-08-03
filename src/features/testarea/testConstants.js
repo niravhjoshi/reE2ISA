@@ -1,0 +1,2 @@
+export const INCREMENT_CNTR = 'INCREMENT_CNTR';
+export const DECREMENT_CNTR = 'DECREMENT_CNTR';

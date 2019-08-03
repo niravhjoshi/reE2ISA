@@ -41,6 +41,7 @@ class NavBar extends Component {
           <Menu.Item name="Shares" as={NavLink} to='/Shares' />
           <Menu.Item name="Analytics" as={NavLink} to='/Analytics' />
           <Menu.Item name="Expenses" as={NavLink} to='/Expenses' />
+          <Menu.Item name="Test" as={NavLink} to='/test' />
           {authenticated ? <SignedInMenu signOut={this.handleSignOut} /> : <SignedOutMenu signIn={this.handleSignIn} />}
 
         </Container>

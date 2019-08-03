@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^4.3.4",
-    "redux-devtools-extension": "2.13.8",
+    "redux-devtools-extension": "^2.13.8",
     "source-map-explorer": "2.0.1",
     "typescript": "3.4.3"
   }
