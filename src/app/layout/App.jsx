@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PersonDashboard from '../../features/Persons/PersonDashboard';
 import NavBar from '../../features/nav/NavBar/NavBar';
 import { Container } from 'semantic-ui-react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import SharesDetailedPage from '../../features/Shares/SharesDetailedPage/SharesDetailedPage';
 import InvestmentDetailedPage from '../../features/Investments/InvestmentsDetailedPage/InvestmentDetailedPage';
 import EarningDetailedPage from '../../features/Earnings/EarningsDetailedPage/EarningDetailedPage';
@@ -27,22 +27,23 @@ class App extends Component {
                         <NavBar />
 
                         <Container className='main'>
-
-                            <Route path='/Persons' component={PersonDashboard} />
-                            <Route path='/Persons/:id' component={PersonsDetail} />
-                            <Route path='/CreatePerson' component={PersonForm} />
-                            <Route path='/Shares' component={SharesDetailedPage} />
-                            <Route path='/Shares/:id' component={SharesDetailedPage} />
-                            <Route path='/Investments' component={InvestmentDetailedPage} />
-                            <Route path='/Investments/:id' component={InvestmentDetailedPage} />
-                            <Route path='/Earnings' component={EarningDetailedPage} />
-                            <Route path='/Earnings/:id' component={EarningDetailedPage} />
-                            <Route path='/Expenses' component={ExpensesDetailedPage} />
-                            <Route path='/Expenses/:id' component={ExpensesDetailedPage} />
-                            <Route path='/Analytics' component={AnalyticsDetailedpage} />
-                            <Route path='/Settings' component={SettingsDashboard} />
-                            <Route path='/AccountPage/:id' component={AccountPage} />
-                            <Route path='/test' component={TestComponent} />
+                            <Switch key={this.props.location.key}>
+                                <Route exact path='/Persons' component={PersonDashboard} />
+                                <Route path='/Persons/:id' component={PersonsDetail} />
+                                <Route path={['/CreatePerson', '/managePerson/:id']} component={PersonForm} />
+                                <Route path='/Shares' component={SharesDetailedPage} />
+                                <Route path='/Shares/:id' component={SharesDetailedPage} />
+                                <Route path='/Investments' component={InvestmentDetailedPage} />
+                                <Route path='/Investments/:id' component={InvestmentDetailedPage} />
+                                <Route path='/Earnings' component={EarningDetailedPage} />
+                                <Route path='/Earnings/:id' component={EarningDetailedPage} />
+                                <Route path='/Expenses' component={ExpensesDetailedPage} />
+                                <Route path='/Expenses/:id' component={ExpensesDetailedPage} />
+                                <Route path='/Analytics' component={AnalyticsDetailedpage} />
+                                <Route path='/Settings' component={SettingsDashboard} />
+                                <Route path='/AccountPage/:id' component={AccountPage} />
+                                <Route path='/test' component={TestComponent} />
+                            </Switch>
                         </Container>
                     </Fragment>
 
@@ -54,4 +55,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);

@@ -1,13 +1,35 @@
 import React, { Component } from 'react'
 import { Segment, Form, Button, Checkbox } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { createPerson, updatePerson } from '../personsActions';
+import cuid from 'cuid';
 
-class PersonForm extends Component {
-    state = {
+
+const mapState = (state, ownProps) => {
+    const personId = ownProps.match.params.id;
+
+    let person = {
         FullName: '',
         BirthDate: '',
+        Email: '',
         Sex: '',
         ImageURL: '',
-    };
+    }
+
+    if (personId && state.persons.length > 0) {
+        person = state.persons.filter(person => person.id === personId)[0]
+    }
+
+    return {
+        person
+    }
+
+}
+
+const actions = { createPerson, updatePerson };
+
+class PersonForm extends Component {
+    state = { ...this.props.person };
 
     //Life Cycle Methods
     componentDidMount() {
@@ -22,10 +44,17 @@ class PersonForm extends Component {
         event.preventDefault();
         console.log(this.state);
         if (this.state.id) {
-            this.props.updatedPerson(this.state);
+            this.props.updatePerson(this.state);
+            this.props.history.push(`/persons/${this.state.id}`)
         }
         else {
-            this.props.createPerson(this.state);
+            const newPerson = {
+                ...this.state,
+                id: cuid(),
+                ImageURL: 'https://randomuser.me/api/portraits/men/30.jpg'
+            }
+            this.props.createPerson(newPerson);
+            this.props.history.push(`/persons/${newPerson.id}`)
         }
 
     }
@@ -41,8 +70,8 @@ class PersonForm extends Component {
     }
     render() {
 
-        const { cancelFormOpen } = this.props;
-        const { FullName, BirthDate, ImageURL } = this.state;
+        // const { cancelFormOpen } = this.props;
+        const { FullName, BirthDate, Email, ImageURL } = this.state;
         return (
             <Segment>
                 <Form onSubmit={this.handleSubmitMethod} autoComplete='Off'>
@@ -55,7 +84,10 @@ class PersonForm extends Component {
                         <input name='BirthDate' value={BirthDate} onChange={this.handleInputFormChange} type="date" placeholder="Birth Date" />
                     </Form.Field>
 
-
+                    <Form.Field>
+                        <label>Email Address</label>
+                        <input name='Email' value={Email} onChange={this.handleInputFormChange} type="Email" placeholder="Email Address" />
+                    </Form.Field>
                     <Form.Field>
                         <Checkbox
                             radio
@@ -94,7 +126,7 @@ class PersonForm extends Component {
                     <Button positive type="submit">
                         Submit
                      </Button>
-                    <Button type="button" onClick={cancelFormOpen}>Cancel</Button>
+                    <Button type="button" onClick={this.props.history.goBack}>Cancel</Button>
                 </Form>
             </Segment >
         )
@@ -102,4 +134,4 @@ class PersonForm extends Component {
 }
 
 
-export default PersonForm
+export default connect(mapState, actions)(PersonForm);

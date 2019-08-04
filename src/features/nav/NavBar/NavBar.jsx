@@ -32,7 +32,7 @@ class NavBar extends Component {
             <img src="/assets/images/logo.png" alt="logo" />
             E2ISA
                     </Menu.Item>
-          <Menu.Item name="Persons" as={NavLink} to='/Persons' />
+          <Menu.Item name="Persons" exact as={NavLink} to='/Persons' />
           <Menu.Item>
             <Button floated="right" as={Link} to='/CreatePerson' positive inverted content="Add Persons" />
           </Menu.Item>
