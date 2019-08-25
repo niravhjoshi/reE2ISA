@@ -6,7 +6,7 @@ const initState =[
     {
         id: '1',
         FullName: 'Peter Joshi',
-        BirthDate: '2018-03-27',
+        BirthDate: '25 Aug 2019',
         Sex: 'Male',
         Email:'mark@facebook.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/20.jpg',
@@ -15,7 +15,7 @@ const initState =[
         {
         id: '100',
         FullName: 'Jar Head',
-        BirthDate: '2011-07-15',
+        BirthDate: '28 Oct 2010',
         Sex: 'Female',
         Email:'jar@amazon.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/36.jpg',
@@ -24,7 +24,7 @@ const initState =[
         {
         id: '101',
         FullName: 'Virgo Hole',
-        BirthDate: '2012-12-11',
+        BirthDate: '12 May 2012',
         Sex: 'Male',
         Email:'vir@amazon.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/57.jpg',
@@ -36,7 +36,7 @@ const initState =[
     {
         id: '2',
         FullName: 'Agent Smith',
-        BirthDate: '2011-03-27',
+        BirthDate: '22 Feb 2013',
         Sex: 'Female',
         Email:'Jeff@amazon.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/10.jpg',
@@ -45,7 +45,7 @@ const initState =[
         {
         id: '200',
         FullName: 'Foo Bar',
-        BirthDate: '2011-03-15',
+        BirthDate: '07 Jun 2020',
         Sex: 'Male',
         Email:'Fool@amazon.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/15.jpg',
@@ -54,7 +54,7 @@ const initState =[
         {
         id: '201',
         FullName: 'Alpha Go',
-        BirthDate: '2012-12-15',
+        BirthDate: '25 Apr 2019',
         Sex: 'Female',
         Email:'Kabae@amazon.com',
         ImageURL: 'https://randomuser.me/api/portraits/men/19.jpg',
