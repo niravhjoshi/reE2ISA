@@ -3,10 +3,14 @@ import { Grid } from 'semantic-ui-react';
 import PersonList from './PersonList/PersonList';
 import { connect } from 'react-redux';
 import { createPerson, updatePerson, deletePerson } from './personsActions';
+import LoadingComponent from '../../app/layout/LoadingComponent';
+
+
 
 
 const mapState = (state) => ({
-    persons: state.persons
+    persons: state.persons,
+    loading: state.async.loading
 })
 
 
@@ -29,8 +33,8 @@ class PersonDashboard extends Component {
     render() {
 
 
-        const { persons } = this.props;
-
+        const { persons, loading } = this.props;
+        if (loading) return <LoadingComponent />
         return (
             <Grid>
                 <Grid.Column width={12}>

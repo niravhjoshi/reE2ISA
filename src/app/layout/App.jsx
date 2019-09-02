@@ -14,6 +14,7 @@ import AccountPage from '../../features/Users/Settings/AccountPage';
 import PersonForm from '../../features/Persons/PersonForm/PersonForm';
 import Homepage from '../../features/Home/Homepage';
 import TestComponent from '../../features/testarea/TestComponent';
+import ModalManager from '../../features/modals/ModalManager';
 
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
 
         return (
             <Fragment>
+                <ModalManager />
                 <Route exact path='/' component={Homepage} />
                 <Route path='/(.+)' render={() => (
                     <Fragment>

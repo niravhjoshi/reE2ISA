@@ -1,4 +1,7 @@
-import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON } from "./personsConstants";
+import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON, FETCH_PERSON } from "./personsConstants";
+
+import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
+import { fetchSampleData } from "../../app/data/mockApi";
 
 export const createPerson = (person) => {
     return{
@@ -26,6 +29,21 @@ export const deletePerson = (personId) =>{
         payload:{
             personId
             //payload.personID
+        }
+    }
+}
+
+export const loadPersons = () =>{
+    return async dispatch =>{
+        try{
+            dispatch(asyncActionStart())
+            const persons = await fetchSampleData();
+            dispatch({type:FETCH_PERSON,payload:{persons}})
+            dispatch(asyncActionFinish())
+        }
+        catch(error){
+            console.log(error);
+            dispatch(asyncActionError())
         }
     }
 }

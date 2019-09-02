@@ -1,3 +1,4 @@
 export const CREATE_PERSON = 'CREATE_PERSON';
 export const UPDATE_PERSON = 'UPDATE_PERSON';
 export const DELETE_PERSON = 'DELETE_PERSON';
+export const FETCH_PERSON ='FETCH_PERSON';
