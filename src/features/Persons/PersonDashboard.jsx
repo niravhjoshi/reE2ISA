@@ -32,8 +32,8 @@ class PersonDashboard extends Component {
 
     render() {
 
-
         const { persons, loading } = this.props;
+
         if (loading) return <LoadingComponent />
         return (
             <Grid>
