@@ -1,4 +1,4 @@
-const sampleData =[
+const PersonsampleData =[
     {
         id: '1',
         FullName: 'Peter Joshi',
@@ -62,4 +62,4 @@ const sampleData =[
     }
    ];
 
-   export default sampleData;
+   export default PersonsampleData;

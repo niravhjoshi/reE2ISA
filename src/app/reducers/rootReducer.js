@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import testReducer from "../../features/testarea/testReducer";
 import personsReducer from "../../features/Persons/personsReducer";
+import earningtypeReducer  from "../../features/EarningTypes/earningtypeReducer"
 import {reducer as FormReducer} from 'redux-form';
 import modalReducer from "../../features/modals/modalReducer";
 import authReducer from "../../features/auth/Register/authReducer";
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     form: FormReducer,
     test: testReducer,
     persons:personsReducer,
+    earningtypes:earningtypeReducer,
     modals: modalReducer,
     auth:authReducer,
     async:asyncReducer,

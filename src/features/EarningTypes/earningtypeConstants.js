@@ -1,0 +1,4 @@
+export const CREATE_EAR_TYPE = 'CREATE_EAR_TYPE';
+export const UPDATE_EAR_TYPE = 'UPDATE_EAR_TYPE';
+export const DELETE_EAR_TYPE = 'DELETE_EAR_TYPE';
+export const FETCH_EAR_TYPE ='FETCH_EAR_TYPE';

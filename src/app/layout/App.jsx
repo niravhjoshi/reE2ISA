@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PersonDashboard from '../../features/Persons/PersonDashboard';
+
 import NavBar from '../../features/nav/NavBar/NavBar';
 import { Container } from 'semantic-ui-react';
 import { Route, Switch, withRouter } from 'react-router-dom';
@@ -9,6 +9,9 @@ import EarningDetailedPage from '../../features/Earnings/EarningsDetailedPage/Ea
 import ExpensesDetailedPage from '../../features/Expenses/ExpensesDetailedPage/ExpensesDetailedPage';
 import AnalyticsDetailedpage from '../../features/Analytics/AnalyticsDetailedPage/AnalyticsDetailedpage';
 import PersonsDetail from '../../features/Persons/PersonsDetailed/PersonsDetailedPage';
+import PersonDashboard from '../../features/Persons/PersonDashboard';
+import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/EarningTypeDetailedInfo';
+import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
 import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
 import AccountPage from '../../features/Users/Settings/AccountPage';
 import PersonForm from '../../features/Persons/PersonForm/PersonForm';
@@ -30,9 +33,18 @@ class App extends Component {
 
                         <Container className='main'>
                             <Switch key={this.props.location.key}>
+                                {/* Person Routes */}
                                 <Route exact path='/Persons' component={PersonDashboard} />
                                 <Route path='/Persons/:id' component={PersonsDetail} />
                                 <Route path={['/CreatePerson', '/managePerson/:id']} component={PersonForm} />
+                                <Route exact path='/Persons' component={PersonDashboard} />
+                                <Route path='/Persons/:id' component={PersonsDetail} />
+                                <Route path={['/CreatePerson', '/managePerson/:id']} component={PersonForm} />
+                                {/* Earning Types Routes */}
+                                <Route exact path='/EarningTypes' component={EarningDashboard} />
+                                <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
+
+
                                 <Route path='/Shares' component={SharesDetailedPage} />
                                 <Route path='/Shares/:id' component={SharesDetailedPage} />
                                 <Route path='/Investments' component={InvestmentDetailedPage} />

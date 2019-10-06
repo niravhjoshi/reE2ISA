@@ -49,7 +49,7 @@ class NavBar extends Component {
             <Fragment>
               <Menu.Item name="Persons" exact as={NavLink} to='/Persons' />
               <Menu.Item name="Investments" as={NavLink} to='/Investments' />
-              <Menu.Item name="Earnings" as={NavLink} to='/Earnings' />
+              <Menu.Item name="Earnings Types" as={NavLink} to='/EarningTypes' />
               <Menu.Item name="Shares" as={NavLink} to='/Shares' />
               <Menu.Item name="Analytics" as={NavLink} to='/Analytics' />
               <Menu.Item name="Expenses" as={NavLink} to='/Expenses' />

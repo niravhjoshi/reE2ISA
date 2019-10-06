@@ -1,19 +1,19 @@
-import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON, FETCH_PERSON } from "./personsConstants";
-
+import { CREATE_EAR_TYPE,DELETE_EAR_TYPE,UPDATE_EAR_TYPE,FETCH_EAR_TYPE } from "./earningtypeConstants";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
-import { fetchPersonSampleData } from "../../app/data/mockApi";
+import { fetchEarningTypeSampleData } from "../../app/data/mockApi";
 import { toastr } from "react-redux-toastr";
 
-export const createPerson = (person) => {
+
+export const createEartype = (eartype) => {
     return async dispatch =>{
         try{
             dispatch({
-                type: CREATE_PERSON,
+                type: CREATE_EAR_TYPE,
                 payload:{
-                        person 
+                    eartype 
                     }
                 })
-                toastr.success('Sucess!','Person has been created');
+                toastr.success('Sucess!','EarningType has been created');
         }
         catch(error){
             toastr.error('Opps !','Something went Wrong');
@@ -21,35 +21,33 @@ export const createPerson = (person) => {
     };
 };
 
-
-export const updatePerson = (person) =>{
+export const updateEartype = (eartype) =>{
     return async dispatch =>{
         try{
             dispatch({
-                type: UPDATE_PERSON,
+                type: UPDATE_EAR_TYPE,
                 payload:{
-                    person 
+                    eartype 
                 }
             })
-            toastr.success('Upadate Sucess !','Person has been Sucessfully updated');
+            toastr.success('Upadate Sucess !','Earning Type has been Sucessfully updated');
         }
         catch(error){
             toastr.error('Opps !','Something went wrong while update');
         }
-    }
-    
-}
+    }  
+};
 
-export const deletePerson = (personId) =>{
+export const deleteEartype = (eartypeid) =>{
     return async dispatch =>{
         try{
             dispatch({
-                type: DELETE_PERSON,
+                type: DELETE_EAR_TYPE,
                 payload:{
-                    personId
+                    eartypeid
                 }
             })
-            toastr.success('Sucess !','Person Deleted sucessfully');
+            toastr.success('Sucess !','Earning Type Deleted sucessfully');
         }
         catch(error){
             toastr.error('Opps !','Something went wrong while delete person');
@@ -58,12 +56,12 @@ export const deletePerson = (personId) =>{
 
 }
 
-export const loadPersons = () =>{
+export const loadEarningtype = () =>{
     return async dispatch =>{
         try{
             dispatch(asyncActionStart())
-            const persons = await fetchPersonSampleData();
-            dispatch({type:FETCH_PERSON,payload:{persons}})
+            const earningtypes = await fetchEarningTypeSampleData();
+            dispatch({type:FETCH_EAR_TYPE,payload:{earningtypes}})
             dispatch(asyncActionFinish())
         }
         catch(error){

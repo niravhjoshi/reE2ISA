@@ -9,10 +9,12 @@ import {BrowserRouter} from 'react-router-dom';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/utils/ScrollToTop';
 import { loadPersons } from './features/Persons/personsActions';
+import {loadEarningtype} from './features/EarningTypes/earningtypeActions';
 import ReduxToastr from 'react-redux-toastr';
 
 const store = configureStore();
 store.dispatch(loadPersons())
+store.dispatch(loadEarningtype())
 //console.log(store.getState())
 const rootElement = document.getElementById('root');
 
