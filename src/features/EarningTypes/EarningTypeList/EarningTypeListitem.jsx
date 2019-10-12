@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class EarningTypeListitem extends Component {
     render() {
 
-        const { earningtypes, deletearningtype } = this.props;
+        const { earningtypes, deleteEartype } = this.props;
 
         return (
             <Table celled>
@@ -30,7 +30,8 @@ class EarningTypeListitem extends Component {
 
                         <Table.Cell collapsing>
                             <Button inverted color='teal' as={Link} to={`/EarningTypes/${earningtypes.id}`}>View</Button>
-                            <Button inverted color='red' onClick={() => deletearningtype(earningtypes.id)}>Delete</Button>
+                            <Button inverted color='red' onClick={() => deleteEartype(earningtypes.id)}>Delete</Button>
+
                         </Table.Cell>
 
                     </Table.Row>
