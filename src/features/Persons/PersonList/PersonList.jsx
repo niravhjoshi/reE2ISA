@@ -6,7 +6,7 @@ class PersonList extends Component {
         const { persons, deletePerson } = this.props;
         return (
             <Fragment>
-                {persons.map(person => (
+                {persons && persons.map(person => (
                     <PersonListItem
                         key={person.id}
                         person={person}

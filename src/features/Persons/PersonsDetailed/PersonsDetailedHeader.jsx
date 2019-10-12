@@ -3,6 +3,7 @@ import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { deletePerson } from '../personsActions';
 import { connect } from 'react-redux';
+import { format, parseISO } from 'date-fns';
 
 const mapState = (state) => ({
     persons: state.persons,
@@ -55,7 +56,7 @@ class PersonsDetailedHeader extends Component {
                                         content={person.FullName}
                                         style={{ color: 'white' }}
                                     />
-                                    <p>BirthDate:  <strong>{person.BirthDate}</strong></p>
+                                    <p>BirthDate:  <strong>{person.BirthDate && format(parseISO(person.BirthDate), 'EEEE do LLLL')}</strong></p>
                                     <p>
                                         Sex: <strong>{person.Sex}</strong>
                                     </p>

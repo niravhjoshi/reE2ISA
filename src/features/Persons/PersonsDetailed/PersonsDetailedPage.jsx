@@ -17,6 +17,7 @@ const mapState = (state, ownProps) => {
         person = state.persons.filter(person => person.id === personId)[0];
     }
 
+
     return {
         person
     }

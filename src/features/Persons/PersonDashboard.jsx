@@ -4,9 +4,7 @@ import PersonList from './PersonList/PersonList';
 import { connect } from 'react-redux';
 import { createPerson, updatePerson, deletePerson } from './personsActions';
 import LoadingComponent from '../../app/layout/LoadingComponent';
-
-
-
+//import { firestoreConnect } from 'react-redux-firebase'
 
 const mapState = (state) => ({
     persons: state.persons,
@@ -49,4 +47,4 @@ class PersonDashboard extends Component {
     }
 }
 
-export default connect(mapState, actions)(PersonDashboard)
+export default connect(mapState, actions)(PersonDashboard);

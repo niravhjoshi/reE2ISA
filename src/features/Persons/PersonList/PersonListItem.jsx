@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Item, Icon, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
 
 class PersonListItem extends Component {
     render() {
@@ -23,7 +24,7 @@ class PersonListItem extends Component {
                     <Table.Row>
 
                         <Table.Cell collapsing>{person.FullName}</Table.Cell>
-                        <Table.Cell collapsing>{person.BirthDate}<Icon name="clock" /></Table.Cell>
+                        <Table.Cell collapsing>{person.BirthDate && format(parseISO(person.BirthDate), 'EEEE do LLL')} at {format(parseISO(person.BirthDate), 'h:mm a')}<Icon name="clock" /></Table.Cell>
                         <Table.Cell collapsing>{person.Sex}</Table.Cell>
                         <Table.Cell > <Item.Image size="small" src={person.ImageURL} /></Table.Cell>
                         <Table.Cell collapsing><Icon name="mail" />{person.Email}</Table.Cell>

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Segment, Item, Label, List, Image } from 'semantic-ui-react';
+import { Segment, Item, List, Image, Label } from 'semantic-ui-react';
 //import PersonForm from '../PersonForm/PersonForm';
 
 const PersonsDetailedSidebar = ({ subperson }) => {
