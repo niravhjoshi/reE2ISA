@@ -23,8 +23,8 @@ const PersonsDetailedSidebar = ({ subperson }) => {
                 <Segment attached>
                     <List relaxed divided>
                         {subperson &&
-                            subperson.map(subperson => (
-                                < Item key={subperson.id} style={{ position: 'relative' }}>
+                            Object.values(subperson).map((subperson, index) => (
+                                < Item key={index} style={{ position: 'relative' }}>
                                     <Label style={{ position: 'absolute' }} color='orange' ribbon='right'>Host</Label>
                                     <Image size='tiny' src={subperson.ImageURL} />
                                     <Item.Content verticalAlign='middle'>

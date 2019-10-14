@@ -6,15 +6,23 @@ import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from "react-router-dom";
 import { isEmpty } from 'react-redux-firebase';
+// import { firestoreConnect } from 'react-redux-firebase';
 
 
 const mapState = (state, ownProps) => {
 
+
     const personId = ownProps.match.params.id;
     let person = {};
 
-    if (personId && state.persons.length > 0) {
-        person = state.persons.filter(person => person.id === personId)[0];
+    if (personId || state.firestore.ordered.persons.length > 0) {
+        if (isEmpty(state.firestore.ordered.persons)) {
+            return <Redirect to={{ pathname: "/persons" }} />;
+
+        }
+        else {
+            person = state.firestore.ordered.persons.filter(person => person.id === personId)[0];
+        }
     }
 
 
@@ -26,7 +34,7 @@ const mapState = (state, ownProps) => {
 }
 
 const PersonsDetail = ({ person }) => {
-    if (typeof person === "undefined" || isEmpty(person)) {
+    if (typeof person === "undefined" && isEmpty(person)) {
         return <Redirect to={{ pathname: "/persons" }} />;
     }
 
@@ -46,3 +54,5 @@ const PersonsDetail = ({ person }) => {
 }
 
 export default withRouter(connect(mapState)(PersonsDetail));
+
+// export default withRouter(connect(mapState)(firestoreConnect([{ collection: 'persons' }])(PersonsDetail)));

@@ -1,7 +1,7 @@
-import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON, FETCH_PERSON } from "./personsConstants";
+import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON } from "./personsConstants";
 
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
-import { fetchPersonSampleData } from "../../app/data/mockApi";
+// import { fetchPersonSampleData } from "../../app/data/mockApi";
 import { toastr } from "react-redux-toastr";
 
 export const createPerson = (person) => {
@@ -62,8 +62,8 @@ export const loadPersons = () =>{
     return async dispatch =>{
         try{
             dispatch(asyncActionStart())
-            const persons = await fetchPersonSampleData();
-            dispatch({type:FETCH_PERSON,payload:{persons}})
+            // const persons = await fetchPersonSampleData();
+            // dispatch({type:FETCH_PERSON,payload:{persons}})
             dispatch(asyncActionFinish())
         }
         catch(error){

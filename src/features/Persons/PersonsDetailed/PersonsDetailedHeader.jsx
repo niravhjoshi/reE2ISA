@@ -1,25 +1,26 @@
 import React, { Component } from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { deletePerson } from '../personsActions';
-import { connect } from 'react-redux';
-import { format, parseISO } from 'date-fns';
+// import { deletePerson } from '../personsActions';
+// import { connect } from 'react-redux';
+import { format } from 'date-fns';
 
-const mapState = (state) => ({
-    persons: state.persons,
-})
+// const mapState = (state) => ({
+//     persons: state.firestore.ordered.persons,
 
-const actions = {
+// })
 
-    deletePerson
-}
+// const actions = {
+
+//     deletePerson
+// }
 
 class PersonsDetailedHeader extends Component {
 
-    handleDeletePerson = personID => {
-        this.props.deletePerson(personID);
+    // handleDeletePerson = personID => {
+    //     this.props.deletePerson(personID);
 
-    }
+    // }
 
 
     render() {
@@ -56,7 +57,7 @@ class PersonsDetailedHeader extends Component {
                                         content={person.FullName}
                                         style={{ color: 'white' }}
                                     />
-                                    <p>BirthDate:  <strong>{person.BirthDate && format(parseISO(person.BirthDate), 'EEEE do LLLL')}</strong></p>
+                                    <p>BirthDate:  <strong>{person.BirthDate && format(person.BirthDate.toDate(), 'EEEE do LLLL')}</strong></p>
                                     <p>
                                         Sex: <strong>{person.Sex}</strong>
                                     </p>
@@ -67,9 +68,11 @@ class PersonsDetailedHeader extends Component {
                 </Segment>
 
                 <Segment attached="bottom">
-                    <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
-                        Delete Person</Button>
+                    {/* <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
+                        Delete Person</Button> */}
 
+                    <Button color="red" onClick={() => console.log('I have clicked on delete')}>
+                        Delete Person</Button>
 
 
                     <Button color="orange" floated="right" as={Link} to={`/managePerson/${person.id}`}>
@@ -82,4 +85,5 @@ class PersonsDetailedHeader extends Component {
     }
 }
 
-export default connect(mapState, actions)(PersonsDetailedHeader);
+// export default connect(mapState, actions)(PersonsDetailedHeader);
+export default PersonsDetailedHeader;

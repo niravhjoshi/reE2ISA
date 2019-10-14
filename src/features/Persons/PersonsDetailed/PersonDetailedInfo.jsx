@@ -1,6 +1,6 @@
 import React from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 const PersonDetailedInfo = ({ person }) => {
     return (
@@ -31,7 +31,7 @@ const PersonDetailedInfo = ({ person }) => {
                         <Icon name="calendar" size="large" color="teal" />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <span>{person.BirthDate && format(parseISO(person.BirthDate), 'EEEE do LLL')}</span>
+                        <span>{person.BirthDate && format(person.BirthDate.toDate(), 'EEEE do LLL')}</span>
                     </Grid.Column>
                 </Grid>
             </Segment>
