@@ -9,7 +9,7 @@ import EarningDetailedPage from '../../features/Earnings/EarningsDetailedPage/Ea
 import ExpensesDetailedPage from '../../features/Expenses/ExpensesDetailedPage/ExpensesDetailedPage';
 import AnalyticsDetailedpage from '../../features/Analytics/AnalyticsDetailedPage/AnalyticsDetailedpage';
 import PersonsDetail from '../../features/Persons/PersonsDetailed/PersonsDetailedPage';
-import PersonDashboard from '../../features/Persons/PersonDashboard';
+import PersonDashboard from '../../features/Persons/PersonDashboard/PersonDashboard';
 import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/EarningTypeDetailedInfo';
 import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
 import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';

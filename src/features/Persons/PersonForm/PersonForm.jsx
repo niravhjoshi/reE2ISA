@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { composeValidators, combineValidators, isRequired, hasLengthBetween } from 'revalidate';
 import { createPerson, updatePerson } from '../personsActions';
-import cuid from 'cuid';
+//import cuid from 'cuid';
 import TextInput from '../../../app/form/TextInput';
 import SelectInput from '../../../app/form/SelectInput';
 import DateInput from '../../../app/form/DateInput';
@@ -54,24 +54,23 @@ const validate = combineValidators({
 class PersonForm extends Component {
 
 
-    onFormSubmit = values => {
-
-
-
-        if (this.props.initialValues.id) {
-            this.props.updatePerson(values);
-            this.props.history.push(`/persons/${this.props.initialValues.id}`)
-        }
-        else {
-            const newPerson = {
-                ...values,
-                id: cuid(),
-                ImageURL: 'https://randomuser.me/api/portraits/men/36.jpg'
+    onFormSubmit = async values => {
+        try {
+            if (this.props.initialValues.id) {
+                this.props.updatePerson(values);
+                this.props.history.push(`/persons/${this.props.initialValues.id}`)
             }
-            this.props.createPerson(newPerson);
-            this.props.history.push(`/persons/${newPerson.id}`)
+            else {
+                console.log(values.BirthDate)
+                values.BirthDate = new Date(values.BirthDate)
+                console.log(values.BirthDate)
+                let createdPerson = await this.props.createPerson(values);
+                this.props.history.push(`/persons/${createdPerson.id}`)
+            }
         }
-
+        catch (error) {
+            console.log(error);
+        }
     }
 
     render() {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react';
-import PersonList from './PersonList/PersonList';
+import PersonList from '../PersonList/PersonList';
 import { connect } from 'react-redux';
-import { createPerson, updatePerson, deletePerson } from './personsActions';
-import LoadingComponent from '../../app/layout/LoadingComponent';
+import { createPerson, updatePerson, deletePerson } from '../personsActions';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { firestoreConnect } from 'react-redux-firebase'
 
 const mapState = (state) => ({

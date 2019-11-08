@@ -1,19 +1,21 @@
-import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON } from "./personsConstants";
+import {  UPDATE_PERSON, DELETE_PERSON } from "./personsConstants";
 
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 // import { fetchPersonSampleData } from "../../app/data/mockApi";
 import { toastr } from "react-redux-toastr";
+import {createNewPerson} from '../../app/common/utils/helpers'
 
-export const createPerson = (person) => {
-    return async dispatch =>{
+export const createPerson = person => {
+    return async (dispatch,getState,{getFirestore,getFirebase}) =>{
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+        const user = firebase.auth().currentUser;
+        const photoURL= getState().firebase.profile.photoURL;
+        const newperson = createNewPerson(user,photoURL,person)
         try{
-            dispatch({
-                type: CREATE_PERSON,
-                payload:{
-                        person 
-                    }
-                })
-                toastr.success('Sucess!','Person has been created');
+            let createdPerson = await firestore.add('persons',newperson);
+            toastr.success('Sucess!','Person has been created');
+            return createdPerson;
         }
         catch(error){
             toastr.error('Opps !','Something went Wrong');
