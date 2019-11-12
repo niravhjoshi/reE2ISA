@@ -1,44 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react';
 import PersonsDetailedHeader from './PersonsDetailedHeader';
 import PersonDetailedInfo from './PersonDetailedInfo';
 import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
-import { withRouter, Redirect } from "react-router-dom";
-import { isEmpty } from 'react-redux-firebase';
+import { withFirestore } from 'react-redux-firebase';
 // import { firestoreConnect } from 'react-redux-firebase';
 
 
 const mapState = (state, ownProps) => {
-
-
     const personId = ownProps.match.params.id;
+
     let person = {};
+    if (state.firestore.ordered.persons &&
+        state.firestore.ordered.persons.length > 0) {
 
-    if (personId || state.firestore.ordered.persons.length > 0) {
-        if (isEmpty(state.firestore.ordered.persons)) {
-            return <Redirect to={{ pathname: "/persons" }} />;
-
-        }
-        else {
-            person = state.firestore.ordered.persons.filter(person => person.id === personId)[0];
-        }
+        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {}
     }
-
 
     return {
-        person
+        person,
+        auth: state.firebase.auth
     }
-
-
 }
 
-const PersonsDetail = ({ person }) => {
-    if (typeof person === "undefined" && isEmpty(person)) {
-        return <Redirect to={{ pathname: "/persons" }} />;
+
+
+class PersonsDetail extends Component {
+
+    async componentDidMount() {
+        const { firestore, match } = this.props;
+        await firestore.setListener(`persons/${match.params.id}`);
+
+    }
+    async componentWillUnmount() {
+        const { firestore, match } = this.props;
+        await firestore.unsetListener(`persons/${match.params.id}`);
     }
 
-    else {
+    render() {
+        const { person } = this.props;
+
+
+
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -51,8 +55,11 @@ const PersonsDetail = ({ person }) => {
             </Grid>
         )
     }
+
+
 }
 
-export default withRouter(connect(mapState)(PersonsDetail));
+
+export default withFirestore(connect(mapState)(PersonsDetail));
 
 // export default withRouter(connect(mapState)(firestoreConnect([{ collection: 'persons' }])(PersonsDetail)));

@@ -4,11 +4,11 @@ import PersonList from '../PersonList/PersonList';
 import { connect } from 'react-redux';
 import { createPerson, updatePerson, deletePerson } from '../personsActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { firestoreConnect } from 'react-redux-firebase'
+
+import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 const mapState = (state) => ({
     persons: state.firestore.ordered.persons,
-    loading: state.async.loading
 })
 
 
@@ -21,18 +21,10 @@ const actions = {
 
 class PersonDashboard extends Component {
 
-
-    handleDeletePerson = personID => {
-        this.props.deletePerson(personID);
-    }
-
-
-
     render() {
 
-        const { persons, loading } = this.props;
-
-        if (loading) return <LoadingComponent />
+        const { persons } = this.props;
+        if (!isLoaded(persons)) return <LoadingComponent />;
         return (
             <Grid>
                 <Grid.Column width={12}>

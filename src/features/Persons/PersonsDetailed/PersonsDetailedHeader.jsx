@@ -1,26 +1,9 @@
 import React, { Component } from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-// import { deletePerson } from '../personsActions';
-// import { connect } from 'react-redux';
 import { format } from 'date-fns';
 
-// const mapState = (state) => ({
-//     persons: state.firestore.ordered.persons,
-
-// })
-
-// const actions = {
-
-//     deletePerson
-// }
-
 class PersonsDetailedHeader extends Component {
-
-    // handleDeletePerson = personID => {
-    //     this.props.deletePerson(personID);
-
-    // }
 
 
     render() {
@@ -39,9 +22,6 @@ class PersonsDetailedHeader extends Component {
             height: 'auto',
             color: 'white'
         };
-
-
-
 
         return (
             <Segment.Group>

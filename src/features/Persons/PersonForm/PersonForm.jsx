@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { composeValidators, combineValidators, isRequired, hasLengthBetween } from 'revalidate';
 import { createPerson, updatePerson } from '../personsActions';
-//import cuid from 'cuid';
 import TextInput from '../../../app/form/TextInput';
 import SelectInput from '../../../app/form/SelectInput';
 import DateInput from '../../../app/form/DateInput';
-
+import { withFirestore } from 'react-redux-firebase';
+//import { toastr } from 'react-redux-toastr';
+// import { format } from 'date-fns/esm';
 
 const SexType = [
     { key: 'Male', text: 'Male', value: 'Male' },
@@ -17,22 +18,22 @@ const SexType = [
 
 ];
 
+const actions = { createPerson, updatePerson };
+
 const mapState = (state, ownProps) => {
     const personId = ownProps.match.params.id;
-
     let person = {};
-
-    if (personId && state.persons.length > 0) {
-        person = state.persons.filter(person => person.id === personId)[0]
+    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
+        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {};
     }
 
+
     return {
-        initialValues: person
+        initialValues: person,
+        person
     }
 
 }
-
-const actions = { createPerson, updatePerson };
 
 const validate = combineValidators({
     FullName: composeValidators(
@@ -51,7 +52,18 @@ const validate = combineValidators({
 
 })
 
+
 class PersonForm extends Component {
+
+    async componentDidMount() {
+        const { firestore, match } = this.props;
+        await firestore.setListener(`persons/${match.params.id}`);
+    }
+
+    async componentWillUnmount() {
+        const { firestore, match } = this.props;
+        await firestore.unsetListener(`persons/${match.params.id}`);
+    }
 
 
     onFormSubmit = async values => {
@@ -61,9 +73,7 @@ class PersonForm extends Component {
                 this.props.history.push(`/persons/${this.props.initialValues.id}`)
             }
             else {
-                console.log(values.BirthDate)
                 values.BirthDate = new Date(values.BirthDate)
-                console.log(values.BirthDate)
                 let createdPerson = await this.props.createPerson(values);
                 this.props.history.push(`/persons/${createdPerson.id}`)
             }
@@ -75,6 +85,7 @@ class PersonForm extends Component {
 
     render() {
         const { history, initialValues, invalid, submitting, pristine } = this.props;
+
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -85,9 +96,10 @@ class PersonForm extends Component {
                             <Field name='FullName' component={TextInput} placeholder="Person Full Name" />
                             <Field name='Email' component={TextInput} placeholder="Email Address" />
                             <Field name='ImageURL' component={TextInput} placeholder="Image URL" />
-                            <Field name='BirthDate'
-                                component={DateInput}
-                                dateFormat='dd LLL yyyy'
+                            <Field name='BirthDate' component={DateInput}
+                                dateFormat="dd LLL yyyy h:mm a"
+                                showTimeSelect
+                                timeFormat='HH:mm'
                                 placeholder="Birth Date" />
                             <Header sub color='teal' content='Sex Type' />
                             <Field name='Sex' component={SelectInput} options={SexType} placeholder="Select Your Sex" />
@@ -103,14 +115,14 @@ class PersonForm extends Component {
                         </Form>
                     </Segment >
                 </Grid.Column>
-            </Grid>
+            </Grid >
 
         )
     }
 }
 
 
-export default connect(mapState, actions)(
-    reduxForm({ form: 'personForm', validate })(PersonForm));
+export default withFirestore(connect(mapState, actions)(
+    reduxForm({ form: 'personForm', validate, enableReinitialize: true })(PersonForm)));
 
 
