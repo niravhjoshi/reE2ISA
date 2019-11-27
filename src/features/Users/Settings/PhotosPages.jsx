@@ -1,9 +1,10 @@
 import React from 'react'
+import PhotoPage from '../Photos/PhotoPage';
 
 const PhotosPages = () => {
     return (
         <div>
-            <h1>Welcome to Photos Page Dashboard</h1>
+            <PhotoPage />
         </div>
     )
 }

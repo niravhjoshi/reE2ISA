@@ -5,6 +5,8 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/
 import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
 
+
+
 export const createPerson = person => {
     return async (dispatch,getState,{getFirestore,getFirebase}) =>{
         const firestore = getFirestore();

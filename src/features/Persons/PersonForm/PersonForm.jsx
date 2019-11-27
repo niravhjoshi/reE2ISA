@@ -8,8 +8,9 @@ import TextInput from '../../../app/form/TextInput';
 import SelectInput from '../../../app/form/SelectInput';
 import DateInput from '../../../app/form/DateInput';
 import { withFirestore } from 'react-redux-firebase';
-//import { toastr } from 'react-redux-toastr';
-// import { format } from 'date-fns/esm';
+
+
+
 
 const SexType = [
     { key: 'Male', text: 'Male', value: 'Male' },
@@ -95,7 +96,9 @@ class PersonForm extends Component {
 
                             <Field name='FullName' component={TextInput} placeholder="Person Full Name" />
                             <Field name='Email' component={TextInput} placeholder="Email Address" />
+
                             <Field name='ImageURL' component={TextInput} placeholder="Image URL" />
+
                             <Field name='BirthDate' component={DateInput}
                                 dateFormat="dd LLL yyyy h:mm a"
                                 showTimeSelect
