@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Item, Icon, Button } from 'semantic-ui-react';
+import { Table, Icon, Button, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -8,6 +8,7 @@ class PersonListItem extends Component {
     render() {
 
         const { person, deletePerson } = this.props;
+
         return (
             <Table celled>
                 <Table.Header>
@@ -27,7 +28,7 @@ class PersonListItem extends Component {
                         <Table.Cell collapsing>{person.FullName}</Table.Cell>
                         <Table.Cell collapsing>{person.BirthDate && format(person.BirthDate.toDate(), 'EEEE do LLL')} at {format(person.BirthDate.toDate(), 'h:mm a')}<Icon name="clock" /></Table.Cell>
                         <Table.Cell collapsing>{person.Sex}</Table.Cell>
-                        <Table.Cell > <Item.Image size="small" src={person.ImageURL} /></Table.Cell>
+                        <Table.Cell collapsing><Image size='tiny' src={person.ImageURL} /></Table.Cell>
                         <Table.Cell collapsing><Icon name="mail" />{person.Email}</Table.Cell>
 
                         <Table.Cell collapsing>
@@ -39,7 +40,7 @@ class PersonListItem extends Component {
 
                 </Table.Body>
 
-            </Table>
+            </Table >
         )
     }
 }

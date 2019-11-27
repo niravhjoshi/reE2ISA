@@ -3,13 +3,11 @@ import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { composeValidators, combineValidators, isRequired, hasLengthBetween } from 'revalidate';
-import { createPerson, updatePerson } from '../personsActions';
+import { createPerson, updatePerson, deletePerson } from '../personsActions';
 import TextInput from '../../../app/form/TextInput';
 import SelectInput from '../../../app/form/SelectInput';
 import DateInput from '../../../app/form/DateInput';
 import { withFirestore } from 'react-redux-firebase';
-
-
 
 
 const SexType = [
@@ -19,7 +17,7 @@ const SexType = [
 
 ];
 
-const actions = { createPerson, updatePerson };
+const actions = { createPerson, updatePerson, deletePerson };
 
 const mapState = (state, ownProps) => {
     const personId = ownProps.match.params.id;
@@ -109,7 +107,7 @@ class PersonForm extends Component {
 
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
                                 Submit
-                     </Button>
+                            </Button>
                             <Button type="button" onClick={initialValues.id
                                 ? () => history.push(`/persons/${initialValues.id}`)
                                 : () => history.push('/persons')

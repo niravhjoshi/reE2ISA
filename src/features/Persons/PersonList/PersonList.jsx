@@ -10,10 +10,9 @@ class PersonList extends Component {
                     <PersonListItem
                         key={person.id}
                         person={person}
-                        deletePerson={deletePerson} />
+                        deletePerson={deletePerson}
+                    />
                 ))}
-
-
             </Fragment>
         )
     }

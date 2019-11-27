@@ -20,6 +20,9 @@ const actions = {
 
 
 class PersonDashboard extends Component {
+    handleDeletePerson = personID => {
+        this.props.deletePerson(personID);
+    }
 
     render() {
 
