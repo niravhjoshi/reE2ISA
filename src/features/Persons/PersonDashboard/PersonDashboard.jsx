@@ -9,6 +9,7 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 const mapState = (state) => ({
     persons: state.firestore.ordered.persons,
+
 })
 
 

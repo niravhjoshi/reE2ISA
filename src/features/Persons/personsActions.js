@@ -1,4 +1,3 @@
-
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
@@ -27,28 +26,12 @@ export const createPerson = person => {
 
 export const updatePerson = (person,file,filename) =>{
     return async (dispatch,getState,{getFirebase,getFirestore}) =>{
-        const firebase = getFirebase();
-        const imageName = cuid();
         const firestore = getFirestore();
-        //const user = firebase.auth().currentUser;
-     
+       
 
         try{
-            // dispatch(asyncActionStart())
-            // //uploda file to firebase storage
-            // let uploadFile = await firebase.uploadFile(path,file,null,options)
-            // //get URL of image
-            // let downloadURL = await uploadFile.uploadTaskSnapshot.ref.getDownloadURL();
-            // //get personDoc with UID 
-            // let personDoc = await firestore.get(`persons/${person.createdUID}`);
-            // //Check if person has imageURL in his document or not
-            // if(!personDoc.data().ImageURL){
-            //     await firestore.update(`persons/${person.id}`, person)
-            //         //ImageURL:downloadURL
-            //     }
             await firestore.update(`persons/${person.id}`, person)
             toastr.success('Upadate Sucess !','Person has been Sucessfully updated');
-                
             }
 
         catch(error){
@@ -74,48 +57,80 @@ export const deletePerson = (personId) =>{
 
 }
 
-export const loadPersons = () =>{
-    return async dispatch =>{
+//Person Photo upload method to FireStore Object Storage
+export const uploadPersonProfileImage =(person,file,fileName)  =>
+    async (dispatch,getState,{getFirebase,getFirestore}) =>{
+        const firebase = getFirebase();
+        const imageName = cuid();
+        const firestore = getFirestore();
+        const user = firebase.auth().currentUser;
+        const path = `${user.uid}/PersonProfile_image/${person.id}`;
+        const options={
+            name :imageName
+        }
         try{
             dispatch(asyncActionStart())
-            // const persons = await fetchPersonSampleData();
-            // dispatch({type:FETCH_PERSON,payload:{persons}})
+            //uploda file to firebase storage
+            let uploadFile = await firebase.uploadFile(path,file,null,options)
+            //get URL of image
+            let downloadURL = await uploadFile.uploadTaskSnapshot.ref.getDownloadURL();
+            //get userdoc
+            let PersonDoc = await firestore.get(`persons/${person.id}`);
+            //check if person has photo if not update profile
+            if(!PersonDoc.data().ImageURL){
+               
+                await firestore.update(`persons/${person.id}`, {ImageURL:downloadURL})
+                toastr.success('Upadate Sucess !','Person has been Sucessfully updated');
+
+                await firestore.update(`persons/${person.id}`, {ImageURL:downloadURL})
+                toastr.success('Upadate Sucess !','Person has been Sucessfully updated');               
+               
+            }
+            
+            // add the image to firestore
+            await firestore.add({
+                collection: 'persons',
+                doc: person.id,
+                subcollections: [{collection: 'PersonProfilephotos'}]
+            },{
+                name:imageName,
+                url:downloadURL
+            })
             dispatch(asyncActionFinish())
         }
         catch(error){
-            console.log(error);
+            console.log(error)
             dispatch(asyncActionError())
         }
     }
-}
-/*
-//Upload person new image 
-export const uploadPersonImage = (file, fileName) => 
+
+    export const deletePersonPhoto = (photo,person) => 
     async (dispatch, getState, {getFirebase, getFirestore}) => {
-        const imageName = cuid();
         const firebase = getFirebase();
         const firestore = getFirestore();
         const user = firebase.auth().currentUser;
-        const path = `${user.uid}/Person_images`;
-        const options = {
-            name: imageName
-        };
         try {
-            dispatch(asyncActionStart())
-            // upload the file to firebase storage
-            let uploadedFile = await firebase.uploadFile(path, file, null, options);
-            // get url of the image
-            let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL();
-            // get userdoc 
-            let PersonDoc = await firestore.get(`persons/${person.uid}`);
-            //If person does not have image URL then upload image will be added as default image
-            if (!PersonDoc.data().ImageURL) {
-                await firebase.updateProfile({
-                    photoURL: downloadURL
-                });
+            await firebase.deleteFile(`${user.uid}/${person.id}/PersonProfile_image/${photo.name}`);
+            await firestore.delete({
+                collection: 'persons',
+                doc: person.id,
+                subcollections: [{collection: 'PersonProfilephotos', doc: photo.id}]
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error('Problem deleting the photo')
+        }
+    }
 
-//Make that image as main image
-
-//Delete Image which person does not want to keep it
-
-*/
+    export const setPersonMainPhoto = (photo,person) => 
+    async (dispatch, getState, {getFirebase,getFirestore}) => {
+        
+        const firestore = getFirestore();
+        try {
+               return  await firestore.update(`persons/${person.id}`, {ImageURL:photo.url})
+            
+        } catch (error) {
+            console.log(error);
+            throw new Error('Problem setting main photo')
+        }
+    }

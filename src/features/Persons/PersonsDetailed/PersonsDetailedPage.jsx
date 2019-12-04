@@ -4,7 +4,8 @@ import PersonsDetailedHeader from './PersonsDetailedHeader';
 import PersonDetailedInfo from './PersonDetailedInfo';
 import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
-import { withFirestore } from 'react-redux-firebase';
+import { withFirestore, isEmpty } from 'react-redux-firebase';
+import { Redirect } from "react-router-dom";
 // import { firestoreConnect } from 'react-redux-firebase';
 
 
@@ -40,7 +41,9 @@ class PersonsDetail extends Component {
 
     render() {
         const { person } = this.props;
-
+        if (typeof person === "undefined" || isEmpty(person)) {
+            return <Redirect to={{ pathname: "/persons" }} />;
+        }
 
 
         return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { Segment, Grid, Icon } from 'semantic-ui-react';
 import { format } from 'date-fns';
 
 const PersonDetailedInfo = ({ person }) => {
@@ -53,9 +53,7 @@ const PersonDetailedInfo = ({ person }) => {
                     <Grid.Column width={11}>
                         <span>{person.ImageURL}</span>
                     </Grid.Column>
-                    <Grid.Column width={4}>
-                        <Button color="teal" size="tiny" content="Show Map" />
-                    </Grid.Column>
+
                 </Grid>
             </Segment>
         </Segment.Group>

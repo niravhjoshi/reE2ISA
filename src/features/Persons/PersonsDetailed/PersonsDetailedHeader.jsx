@@ -2,8 +2,18 @@ import React, { Component } from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { deletePerson } from '../personsActions';
+import { connect } from 'react-redux';
 
+const actions = {
+
+    deletePerson
+}
 class PersonsDetailedHeader extends Component {
+
+    handleDeletePerson = personID => {
+        this.props.deletePerson(personID);
+    }
 
 
     render() {
@@ -51,7 +61,7 @@ class PersonsDetailedHeader extends Component {
                     {/* <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
                         Delete Person</Button> */}
 
-                    <Button color="red" onClick={() => console.log('I have clicked on delete')}>
+                    <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
                         Delete Person</Button>
 
 
@@ -66,4 +76,4 @@ class PersonsDetailedHeader extends Component {
 }
 
 // export default connect(mapState, actions)(PersonsDetailedHeader);
-export default PersonsDetailedHeader;
+export default connect(null, actions)(PersonsDetailedHeader);

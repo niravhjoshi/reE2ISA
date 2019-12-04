@@ -14,7 +14,8 @@ import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/E
 import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
 import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
 import AccountPage from '../../features/Users/Settings/AccountPage';
-import PersonForm from '../../features/Persons/PersonForm/PersonForm';
+import PersonCreateForm from '../../features/Persons/PersonForm/PersonCreateForm';
+import PersonEditForm from '../../features/Persons/PersonForm/PersonEditForm';
 import Homepage from '../../features/Home/Homepage';
 import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';
@@ -36,10 +37,10 @@ class App extends Component {
                                 {/* Person Routes */}
                                 <Route exact path='/Persons' component={PersonDashboard} />
                                 <Route path='/Persons/:id' component={PersonsDetail} />
-                                <Route path={['/CreatePerson', '/managePerson/:id']} component={PersonForm} />
+                                <Route path={['/CreatePerson']} component={PersonCreateForm} />
                                 <Route exact path='/Persons' component={PersonDashboard} />
                                 <Route path='/Persons/:id' component={PersonsDetail} />
-                                <Route path={['/CreatePerson', '/managePerson/:id']} component={PersonForm} />
+                                <Route path={['/managePerson/:id']} component={PersonEditForm} />
                                 {/* Earning Types Routes */}
                                 <Route exact path='/EarningTypes' component={EarningDashboard} />
                                 <Route path='/EarningTypes/:id' component={EarningTypeDetail} />

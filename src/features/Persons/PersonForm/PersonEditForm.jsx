@@ -8,7 +8,7 @@ import TextInput from '../../../app/form/TextInput';
 import SelectInput from '../../../app/form/SelectInput';
 import DateInput from '../../../app/form/DateInput';
 import { withFirestore } from 'react-redux-firebase';
-
+import PersonPhotoPage from '../PersonsPhotos/PersonPhotoPage';
 
 const SexType = [
     { key: 'Male', text: 'Male', value: 'Male' },
@@ -52,7 +52,7 @@ const validate = combineValidators({
 })
 
 
-class PersonForm extends Component {
+class PersonEditForm extends Component {
 
     async componentDidMount() {
         const { firestore, match } = this.props;
@@ -83,7 +83,7 @@ class PersonForm extends Component {
     }
 
     render() {
-        const { history, initialValues, invalid, submitting, pristine } = this.props;
+        const { history, initialValues, invalid, submitting, pristine, person } = this.props;
 
         return (
             <Grid>
@@ -96,7 +96,7 @@ class PersonForm extends Component {
                             <Field name='Email' component={TextInput} placeholder="Email Address" />
 
                             <Field name='ImageURL' component={TextInput} placeholder="Image URL" />
-
+                            <PersonPhotoPage person={person} />
                             <Field name='BirthDate' component={DateInput}
                                 dateFormat="dd LLL yyyy h:mm a"
                                 showTimeSelect
@@ -124,6 +124,6 @@ class PersonForm extends Component {
 
 
 export default withFirestore(connect(mapState, actions)(
-    reduxForm({ form: 'personForm', validate, enableReinitialize: true })(PersonForm)));
+    reduxForm({ form: 'PersonEditForm', validate, enableReinitialize: true })(PersonEditForm)));
 
 
