@@ -47,10 +47,10 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
         }
     }, [files, cropResult]);
 
-    const handleuploadImage = async () => {
+    const handlePersonuploadImage = async () => {
         try {
             await uploadPersonProfileImage(person, image, files[0].name);
-            handlecancelCrop();
+            handlePersoncancelCrop();
             toastr.success('Sucess', 'Photo has been uploaded');
         }
         catch (error) {
@@ -59,25 +59,25 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
         }
     }
 
-    const handlecancelCrop = () => {
+    const handlePersoncancelCrop = () => {
         setFiles([]);
         setImage(null);
         setCropResult('');
     }
 
-    const handleDeletePhoto = async photo => {
+    const handlePersonDeletePhoto = async photo => {
         try {
-            await deletePersonPhoto(photo);
+            await deletePersonPhoto(photo, person);
         } catch (error) {
             toastr.error('Oops', error.message);
         }
     };
 
-    const handleSetMainPhoto = async photo => {
+    const handlePersonSetMainPhoto = async (photo, person) => {
         try {
-            await setPersonMainPhoto(photo);
+            await setPersonMainPhoto(photo, person);
         } catch (error) {
-            toastr.error('Oops', error.message);
+            toastr.error('Oops Set Main Photo Error', error.message);
         }
     };
 
@@ -108,7 +108,7 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
                             <Button.Group>
                                 <Button
                                     loading={loading}
-                                    onClick={handleuploadImage}
+                                    onClick={handlePersonuploadImage}
 
                                     style={{ width: '100px' }}
                                     positive
@@ -116,7 +116,7 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
                                 />
                                 <Button
                                     disabled={loading}
-                                    onClick={handlecancelCrop}
+                                    onClick={handlePersoncancelCrop}
                                     style={{ width: '100px' }}
                                     icon='close'
                                 />
@@ -129,8 +129,8 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
             <Divider />
             <PersonPhotos person={person}
                 photos={photos}
-                deletePersonPhoto={handleDeletePhoto}
-                setPersonMainPhoto={handleSetMainPhoto}
+                deletePersonPhoto={handlePersonDeletePhoto}
+                setPersonMainPhoto={handlePersonSetMainPhoto}
             />
         </Segment >
     );

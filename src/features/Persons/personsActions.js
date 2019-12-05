@@ -31,7 +31,7 @@ export const updatePerson = (person,file,filename) =>{
 
         try{
             await firestore.update(`persons/${person.id}`, person)
-            toastr.success('Upadate Sucess !','Person has been Sucessfully updated');
+            toastr.success('Upadate Sucess !','I am updatePersonPerson has been Sucessfully updated');
             }
 
         catch(error){
@@ -110,7 +110,7 @@ export const uploadPersonProfileImage =(person,file,fileName)  =>
         const firestore = getFirestore();
         const user = firebase.auth().currentUser;
         try {
-            await firebase.deleteFile(`${user.uid}/${person.id}/PersonProfile_image/${photo.name}`);
+            await firebase.deleteFile(`${user.uid}/PersonProfile_image/${person.id}/${photo.name}`);
             await firestore.delete({
                 collection: 'persons',
                 doc: person.id,
@@ -126,10 +126,12 @@ export const uploadPersonProfileImage =(person,file,fileName)  =>
     async (dispatch, getState, {getFirebase,getFirestore}) => {
         
         const firestore = getFirestore();
-        try {
-               return  await firestore.update(`persons/${person.id}`, {ImageURL:photo.url})
-            
-        } catch (error) {
+        try { 
+            await firestore.update(`persons/${person.id}`, {ImageURL:photo.url})
+            toastr.success('Upadate Sucess !','Person profileImage updated');
+        } 
+        
+        catch (error) {
             console.log(error);
             throw new Error('Problem setting main photo')
         }
