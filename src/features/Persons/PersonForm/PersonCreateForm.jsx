@@ -94,7 +94,7 @@ class PersonCreateForm extends Component {
                             <Field name='FullName' component={TextInput} placeholder="Person Full Name" />
                             <Field name='Email' component={TextInput} placeholder="Email Address" />
 
-                            <Field name='ImageURL' component={TextInput} placeholder="Image URL" />
+                            {/* <Field name='ImageURL' component={TextInput} placeholder="Image URL" /> */}
 
                             <Field name='BirthDate' component={DateInput}
                                 dateFormat="dd LLL yyyy h:mm a"

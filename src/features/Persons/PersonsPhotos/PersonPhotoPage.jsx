@@ -121,6 +121,10 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
                                     icon='close'
                                 />
                             </Button.Group>
+                            <i class="tiny icons">
+                                <i class="big circle outline icon"></i>
+                                <i class="user icon"></i>
+                            </i>
                         </Fragment>
                     )}
                 </Grid.Column>
