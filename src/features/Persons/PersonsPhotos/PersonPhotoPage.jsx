@@ -3,7 +3,6 @@ import { Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
 import DropzoneInput from './PersonDropzoneinput';
 import CropperInput from './PersonCropperInput';
 import { connect } from 'react-redux';
-
 import { setPersonMainPhoto, uploadPersonProfileImage, deletePersonPhoto } from '../personsActions'
 import { firestoreConnect } from 'react-redux-firebase';
 import { toastr } from 'react-redux-toastr';
@@ -121,9 +120,9 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
                                     icon='close'
                                 />
                             </Button.Group>
-                            <i class="tiny icons">
-                                <i class="big circle outline icon"></i>
-                                <i class="user icon"></i>
+                            <i className="tiny icons">
+                                <i className="big circle outline icon"></i>
+                                <i className="user icon"></i>
                             </i>
                         </Fragment>
                     )}
