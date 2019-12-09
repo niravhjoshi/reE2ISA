@@ -6,6 +6,7 @@ import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
 import { withFirestore, isEmpty } from 'react-redux-firebase';
 import { Redirect } from "react-router-dom";
+import { deletePerson } from '../personsActions';
 // import { firestoreConnect } from 'react-redux-firebase';
 
 
@@ -25,9 +26,16 @@ const mapState = (state, ownProps) => {
     }
 }
 
+const actions = {
+    deletePerson,
+
+};
 
 
 class PersonsDetail extends Component {
+    handleDeletePerson = personID => {
+        this.props.deletePerson(personID);
+    }
 
     async componentDidMount() {
         const { firestore, match } = this.props;
@@ -49,7 +57,7 @@ class PersonsDetail extends Component {
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <PersonsDetailedHeader person={person} />
+                    <PersonsDetailedHeader person={person} deletePerson={this.handleDeletePerson} />
                     <PersonDetailedInfo person={person} />
                 </Grid.Column>
                 <Grid.Column width={6}>
@@ -63,6 +71,6 @@ class PersonsDetail extends Component {
 }
 
 
-export default withFirestore(connect(mapState)(PersonsDetail));
+export default withFirestore(connect(mapState, actions)(PersonsDetail));
 
 // export default withRouter(connect(mapState)(firestoreConnect([{ collection: 'persons' }])(PersonsDetail)));
