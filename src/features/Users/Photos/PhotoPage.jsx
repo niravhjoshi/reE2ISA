@@ -52,11 +52,11 @@ const PhotoPage = ({ uploadProfileImage, photos, profile, deletePhoto, setMainPh
         try {
             await uploadProfileImage(image, files[0].name);
             handlecancelCrop();
-            toastr.success('Sucess', 'Photo has been uploaded');
+            toastr.success('Sucess', 'Profile Photo has been uploaded');
         }
         catch (error) {
             console.log(error);
-            toastr.error("Error While Uploading Image", error);
+            toastr.error("Profile Error While Uploading Image", error);
         }
     }
 
@@ -110,7 +110,6 @@ const PhotoPage = ({ uploadProfileImage, photos, profile, deletePhoto, setMainPh
                                 <Button
                                     loading={loading}
                                     onClick={handleuploadImage}
-
                                     style={{ width: '100px' }}
                                     positive
                                     icon='check'

@@ -50,11 +50,11 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
         try {
             await uploadPersonProfileImage(person, image, files[0].name);
             handlePersoncancelCrop();
-            toastr.success('Sucess', 'Photo has been uploaded');
+            toastr.success('Sucess', 'Person Photo has been uploaded');
         }
         catch (error) {
             console.log(error);
-            toastr.error("Error While Uploading Image", error);
+            toastr.error("Person Error While Uploading Image", error);
         }
     }
 
@@ -76,7 +76,7 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
         try {
             await setPersonMainPhoto(photo, person);
         } catch (error) {
-            toastr.error('Oops Set Main Photo Error', error.message);
+            toastr.error('Oops Set Person Main Photo Error', error.message);
         }
     };
 
