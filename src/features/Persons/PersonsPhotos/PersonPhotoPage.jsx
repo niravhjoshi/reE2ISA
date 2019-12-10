@@ -13,7 +13,7 @@ import PersonPhotos from './PersonPhotos';
 const query = ({ person }) => {
     return [
         {
-            collection: 'persons',
+            collection: 'Persons_ProfilePhotos',
             doc: person.id,
             subcollections: [{ collection: 'PersonProfilephotos' }],
             storeAs: 'PersonProfilephotos',

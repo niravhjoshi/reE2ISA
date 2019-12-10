@@ -44,9 +44,10 @@ export const updatePerson = (person,file,filename) =>{
 export const deletePerson = (personId) =>{
     return async (dispatch,getState,{getFirebase,getFirestore}) =>{
         const firestore = getFirestore();
-        //const firebase = getFirebase();
+        // const firebase = getFirebase();
+        // const user = firebase.auth().currentUser;
         try{
-            await firestore.delete(`persons/${personId}`)
+        await firestore.delete(`persons/${personId}`)
             toastr.success('Sucess !','Person Deleted sucessfully');
             }
         
@@ -89,12 +90,14 @@ export const uploadPersonProfileImage =(person,file,fileName)  =>
             
             // add the image to firestore
             await firestore.add({
-                collection: 'persons',
+                collection: 'Persons_ProfilePhotos',
                 doc: person.id,
                 subcollections: [{collection: 'PersonProfilephotos'}]
             },{
                 name:imageName,
-                url:downloadURL
+                url:downloadURL,
+                CreatorName:user.displayName,
+                CreateByUID:user.uid
             })
             dispatch(asyncActionFinish())
         }
@@ -112,7 +115,7 @@ export const uploadPersonProfileImage =(person,file,fileName)  =>
         try {
             await firebase.deleteFile(`${user.uid}/PersonProfile_image/${person.id}/${photo.name}`);
             await firestore.delete({
-                collection: 'persons',
+                collection: 'Persons_ProfilePhotos',
                 doc: person.id,
                 subcollections: [{collection: 'PersonProfilephotos', doc: photo.id}]
             })
