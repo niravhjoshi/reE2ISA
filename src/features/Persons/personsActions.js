@@ -46,11 +46,17 @@ export const deletePerson = (personId) =>{
         const firestore = getFirestore();
         // const firebase = getFirebase();
         // const user = firebase.auth().currentUser;
+        const message = personId
+        ? 'Are you sure you want to delete the Person?'
+        : 'This , are you sure?';
         try{
-        await firestore.delete(`persons/${personId}`)
-            toastr.success('Sucess !','Person Deleted sucessfully');
-            }
-        
+            toastr.confirm(message, {
+                onOk: async() => 
+                             await firestore.delete(`persons/${personId}`,
+                             {personId:personId})
+                             
+            })
+        }
         catch(error){
             toastr.error('Opps !','Something went wrong while delete person');
         }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
+import { Segment, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import DropzoneInput from './PersonDropzoneinput';
 import CropperInput from './PersonCropperInput';
 import { connect } from 'react-redux';
@@ -104,22 +104,17 @@ const PersonPhotoPage = ({ setPersonMainPhoto, uploadPersonProfileImage, deleteP
                             <div className='img-preview' style=
                                 {{ minHeight: '200px', minWidth: '200px', overflow: 'hidden' }}
                             />
-                            <Button.Group>
-                                <Button
-                                    loading={loading}
-                                    onClick={handlePersonuploadImage}
+                            <Icon link
+                                loading={loading}
+                                onClick={handlePersonuploadImage}
+                                name='thumbs up outline'
+                                size='large' />
+                            <Icon link
+                                disabled={loading}
+                                onClick={handlePersoncancelCrop}
+                                name='thumbs down outline'
+                                size='large' />
 
-                                    style={{ width: '100px' }}
-                                    positive
-                                    icon='check'
-                                />
-                                <Button
-                                    disabled={loading}
-                                    onClick={handlePersoncancelCrop}
-                                    style={{ width: '100px' }}
-                                    icon='close'
-                                />
-                            </Button.Group>
                             <i className="tiny icons">
                                 <i className="big circle outline icon"></i>
                                 <i className="user icon"></i>

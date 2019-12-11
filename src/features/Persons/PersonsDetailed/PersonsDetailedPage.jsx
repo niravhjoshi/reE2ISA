@@ -4,9 +4,10 @@ import PersonsDetailedHeader from './PersonsDetailedHeader';
 import PersonDetailedInfo from './PersonDetailedInfo';
 import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
-import { withFirestore, isEmpty } from 'react-redux-firebase';
-import { Redirect } from "react-router-dom";
+import { withFirestore } from 'react-redux-firebase';
+
 import { deletePerson } from '../personsActions';
+import { toastr } from 'react-redux-toastr';
 // import { firestoreConnect } from 'react-redux-firebase';
 
 
@@ -14,8 +15,7 @@ const mapState = (state, ownProps) => {
     const personId = ownProps.match.params.id;
 
     let person = {};
-    if (state.firestore.ordered.persons &&
-        state.firestore.ordered.persons.length > 0) {
+    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
 
         person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {}
     }
@@ -38,20 +38,25 @@ class PersonsDetail extends Component {
     }
 
     async componentDidMount() {
-        const { firestore, match } = this.props;
-        await firestore.setListener(`persons/${match.params.id}`);
+        const { firestore, match, history } = this.props;
+        let person = await firestore.get(`persons/${match.params.id}`);
+        if (!person.exists) {
+
+            history.push('/persons')
+            toastr.error('Sorry ', 'Person not found');
+        }
 
     }
-    async componentWillUnmount() {
-        const { firestore, match } = this.props;
-        await firestore.unsetListener(`persons/${match.params.id}`);
-    }
+    // async componentWillUnmount() {
+    //     const { firestore, match } = this.props;
+    //     await firestore.unsetListener(`persons/${match.params.id}`);
+    // }
 
     render() {
         const { person } = this.props;
-        if (typeof person === "undefined" || isEmpty(person)) {
-            return <Redirect to={{ pathname: "/persons" }} />;
-        }
+        // if (typeof person === "undefined" || isEmpty(person)) {
+        //     return <Redirect to={{ pathname: "/persons" }} />;
+        // }
 
 
         return (
@@ -73,4 +78,4 @@ class PersonsDetail extends Component {
 
 export default withFirestore(connect(mapState, actions)(PersonsDetail));
 
-// export default withRouter(connect(mapState)(firestoreConnect([{ collection: 'persons' }])(PersonsDetail)));
+// export default withFirestore(connect(mapState, actions)([{ collection: 'persons' }])(PersonsDetail));

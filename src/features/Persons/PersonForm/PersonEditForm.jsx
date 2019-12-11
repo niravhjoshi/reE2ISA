@@ -72,9 +72,9 @@ class PersonEditForm extends Component {
                 this.props.history.push(`/persons/${this.props.initialValues.id}`)
             }
             else {
-                values.BirthDate = new Date(values.BirthDate)
-                let createdPerson = await this.props.createPerson(values);
-                this.props.history.push(`/persons/${createdPerson.id}`)
+                // values.BirthDate = new Date(values.BirthDate)
+                // let createdPerson = await this.props.createPerson(values);
+                // this.props.history.push(`/persons/${createdPerson.id}`)
             }
         }
         catch (error) {
