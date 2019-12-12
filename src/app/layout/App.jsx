@@ -19,6 +19,7 @@ import PersonEditForm from '../../features/Persons/PersonForm/PersonEditForm';
 import Homepage from '../../features/Home/Homepage';
 import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';
+import LandingPage from '../../features/Home/LandingPage';
 
 
 class App extends Component {
@@ -41,20 +42,38 @@ class App extends Component {
                                 <Route exact path='/Persons' component={PersonDashboard} />
                                 <Route path='/Persons/:id' component={PersonsDetail} />
                                 <Route path={['/managePerson/:id']} component={PersonEditForm} />
+
                                 {/* Earning Types Routes */}
                                 <Route exact path='/EarningTypes' component={EarningDashboard} />
                                 <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
 
+                                {/* Earning Types Page Routes */}
+                                <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
 
+                                {/* Share Page Routes */}
                                 <Route path='/Shares' component={SharesDetailedPage} />
                                 <Route path='/Shares/:id' component={SharesDetailedPage} />
+
+                                {/* Investment Page Routes */}
                                 <Route path='/Investments' component={InvestmentDetailedPage} />
                                 <Route path='/Investments/:id' component={InvestmentDetailedPage} />
+
+                                {/* Earning Page Routes */}
                                 <Route path='/Earnings' component={EarningDetailedPage} />
                                 <Route path='/Earnings/:id' component={EarningDetailedPage} />
+
+                                {/* Expense Page Routes */}
                                 <Route path='/Expenses' component={ExpensesDetailedPage} />
                                 <Route path='/Expenses/:id' component={ExpensesDetailedPage} />
-                                <Route path='/Analytics' component={AnalyticsDetailedpage} />
+
+                                {/* Landing Page Routes */}
+                                <Route path='/Landing' component={LandingPage} />
+
+                                {/* AnalyticsDetailedpage Page Routes */}
+                                <Route path='/AnalyticsDetailedpage' component={AnalyticsDetailedpage} />
+
+
+                                {/* Account Setting Page Routes */}
                                 <Route path='/Settings' component={SettingsDashboard} />
                                 <Route path='/AccountPage/:id' component={AccountPage} />
                                 <Route path='/test' component={TestComponent} />

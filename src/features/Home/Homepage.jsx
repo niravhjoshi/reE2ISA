@@ -14,7 +14,7 @@ const Homepage = ({ history }) => {
                     />
                     Welcome to E2ISA
               </Header>
-                <Button size='huge' inverted onClick={() => history.push('/persons')}>
+                <Button size='huge' inverted onClick={() => history.push('/Landing')}>
                     Get started
                 <Icon name='right arrow' inverted />
                 </Button>

@@ -4,14 +4,21 @@ import PersonList from '../PersonList/PersonList';
 import { connect } from 'react-redux';
 import { createPerson, updatePerson, deletePerson } from '../personsActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-
+import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 const mapState = (state) => ({
-    persons: state.firestore.ordered.persons
-
+    persons: state.firestore.ordered.persons,
+    auth: state.firebase.auth,
 
 })
+
+// const mapState = (state) => {
+//     return {
+//         auth: state.firebase.auth,
+//         persons: state.firestore.ordered.pomodoros
+//     }
+// }
 
 
 const actions = {
@@ -22,9 +29,7 @@ const actions = {
 
 
 class PersonDashboard extends Component {
-    handleDeletePerson = personID => {
-        this.props.deletePerson(personID);
-    }
+
 
     render() {
 
@@ -45,4 +50,31 @@ class PersonDashboard extends Component {
     }
 }
 
-export default connect(mapState, actions)(firestoreConnect([{ collection: 'persons' }])(PersonDashboard));
+export default compose(connect(mapState, actions),
+    firestoreConnect((props) => {
+        if (!props.auth.uid) return []
+        return [
+            {
+                collection: 'persons',
+                where: [
+                    ['createdUID', '==', props.auth.uid]
+                ]
+
+            }
+        ]
+    }))(PersonDashboard);
+
+
+
+// export default compose(connect(mapState, actions),
+//     firestoreConnect((props) => {
+//         // if (!props.auth.uid) return []
+//         return [
+//             {
+//                 collection: 'persons',
+//                 where: [
+//                     ['createdUID', '==', props.auth.uid]
+//                 ]
+//             }
+//         ]
+//     }))(PersonDashboard);
