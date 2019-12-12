@@ -8,7 +8,8 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 const mapState = (state) => ({
-    persons: state.firestore.ordered.persons,
+    persons: state.firestore.ordered.persons
+
 
 })
 
@@ -33,6 +34,7 @@ class PersonDashboard extends Component {
             <Grid>
                 <Grid.Column width={12}>
                     <PersonList persons={persons} deletePerson={this.handleDeletePerson} />
+
                 </Grid.Column>
                 <Grid.Column width={3}>
 
