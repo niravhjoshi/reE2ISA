@@ -7,10 +7,10 @@ const LandingPage = () => {
     return (
         <Container style={{ margin: 20 }}>
             <Segment attached="top">
-                <Header as="h2" content="Image carousel" />
+                <Header as="h2" content="E2ISA Your on stop Solution for All" />
                 <p>
-                    This prototype features how to create a carousel with images, take a
-                look into <code>examples/ImageCarousel</code> to get more details.
+                    Welcome to E2ISA App You can login here to see and add your data.
+                look into <code>Developed By Nirav Joshi</code> Data Walker.
             </p>
             </Segment>
             <Segment attached="bottom">

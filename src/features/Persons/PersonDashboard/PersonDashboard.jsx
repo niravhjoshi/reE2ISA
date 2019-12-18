@@ -10,15 +10,10 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 const mapState = (state) => ({
     persons: state.firestore.ordered.persons,
     auth: state.firebase.auth,
+    loading: state.async.loading
 
 })
 
-// const mapState = (state) => {
-//     return {
-//         auth: state.firebase.auth,
-//         persons: state.firestore.ordered.pomodoros
-//     }
-// }
 
 
 const actions = {
@@ -30,6 +25,9 @@ const actions = {
 
 class PersonDashboard extends Component {
 
+    handleDeletePerson = personID => {
+        this.props.deletePerson(personID);
+    }
 
     render() {
 
@@ -65,16 +63,3 @@ export default compose(connect(mapState, actions),
     }))(PersonDashboard);
 
 
-
-// export default compose(connect(mapState, actions),
-//     firestoreConnect((props) => {
-//         // if (!props.auth.uid) return []
-//         return [
-//             {
-//                 collection: 'persons',
-//                 where: [
-//                     ['createdUID', '==', props.auth.uid]
-//                 ]
-//             }
-//         ]
-//     }))(PersonDashboard);
