@@ -46,10 +46,16 @@ class NavBar extends Component {
           <Menu.Item as={NavLink} exact to='/' header>
             <img src="/assets/images/logo.png" alt="logo" />
             E2ISA
-                    </Menu.Item>
+          </Menu.Item>
           {authenticated && (
             <Fragment>
               <Menu.Item name="Persons" exact as={NavLink} to='/Persons' />
+              {this.props.location.pathname === '/Persons' && <Menu.Item>
+                <Button floated="right" as={Link} to='/CreatePerson' positive inverted content="Add Persons" />
+              </Menu.Item>}
+
+
+
               <Menu.Item name="Investments" as={NavLink} to='/Investments' />
               <Menu.Item name="Earnings Types" as={NavLink} to='/EarningTypes' />
               <Menu.Item name="Shares" as={NavLink} to='/Shares' />
@@ -57,9 +63,6 @@ class NavBar extends Component {
               <Menu.Item name="Expenses" as={NavLink} to='/Expenses' />
               <Menu.Item name="Test" as={NavLink} to='/test' />
 
-              <Menu.Item>
-                <Button floated="right" as={Link} to='/CreatePerson' positive inverted content="Add Persons" />
-              </Menu.Item>
 
             </Fragment>
           )}
@@ -69,7 +72,7 @@ class NavBar extends Component {
               <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />)}
 
         </Container>
-      </Menu>
+      </Menu >
     )
   }
 }
