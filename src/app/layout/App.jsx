@@ -3,23 +3,30 @@ import React, { Component, Fragment } from 'react';
 import NavBar from '../../features/nav/NavBar/NavBar';
 import { Container } from 'semantic-ui-react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+
 import SharesDetailedPage from '../../features/Shares/SharesDetailedPage/SharesDetailedPage';
 import InvestmentDetailedPage from '../../features/Investments/InvestmentsDetailedPage/InvestmentDetailedPage';
 import EarningDetailedPage from '../../features/Earnings/EarningsDetailedPage/EarningDetailedPage';
 import ExpensesDetailedPage from '../../features/Expenses/ExpensesDetailedPage/ExpensesDetailedPage';
 import AnalyticsDetailedpage from '../../features/Analytics/AnalyticsDetailedPage/AnalyticsDetailedpage';
+
 import PersonsDetail from '../../features/Persons/PersonsDetailed/PersonsDetailedPage';
 import PersonDashboard from '../../features/Persons/PersonDashboard/PersonDashboard';
-import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/EarningTypeDetailedInfo';
-import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
-import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
-import AccountPage from '../../features/Users/Settings/AccountPage';
 import PersonCreateForm from '../../features/Persons/PersonForm/PersonCreateForm';
 import PersonEditForm from '../../features/Persons/PersonForm/PersonEditForm';
+
+import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/EarningTypeDetailedInfo';
+import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
+import EarningTypeForm from '../../features/EarningTypes/EarningTypeForm/EarningTypeForm';
+
+import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
+import AccountPage from '../../features/Users/Settings/AccountPage';
 import Homepage from '../../features/Home/Homepage';
+import LandingPage from '../../features/Home/LandingPage';
+
 import TestComponent from '../../features/testarea/TestComponent';
 import ModalManager from '../../features/modals/ModalManager';
-import LandingPage from '../../features/Home/LandingPage';
+
 
 
 class App extends Component {
@@ -46,9 +53,8 @@ class App extends Component {
                                 {/* Earning Types Routes */}
                                 <Route exact path='/EarningTypes' component={EarningDashboard} />
                                 <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
+                                <Route path={['/CreateEarningType']} component={EarningTypeForm} />
 
-                                {/* Earning Types Page Routes */}
-                                <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
 
                                 {/* Share Page Routes */}
                                 <Route path='/Shares' component={SharesDetailedPage} />

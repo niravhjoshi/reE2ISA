@@ -10,6 +10,15 @@ export const createNewPerson = (user,photoURL,person) =>{
     }
 }
 
+export const createNewEarningType = (user,EarningType) => {
+    return {
+        ...EarningType,
+        createdUID: user.uid,
+        CreatorName: user.displayName,
+        created: new Date(),
+    }
+}
+
 export const ObjectToArray =(object) =>{
     if(object){
         return Object.entries(object).map(e => Object.assign({},e[1],{id:e[0]}))

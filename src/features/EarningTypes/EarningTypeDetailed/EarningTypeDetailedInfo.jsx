@@ -1,9 +1,9 @@
 import React from 'react'
 import { Segment, Grid, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { withRouter, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { isEmpty } from 'react-redux-firebase';
-
+import { withFirestore } from 'react-redux-firebase';
 
 
 const mapState = (state, ownProps) => {
@@ -11,12 +11,14 @@ const mapState = (state, ownProps) => {
     const earningtypeid = ownProps.match.params.id;
     let earningtype = {};
 
-    if (earningtypeid && state.earningtypes.length > 0) {
-        earningtype = state.earningtypes.filter(earningtype => earningtype.id === earningtypeid)[0];
+    if (state.firestore.ordered.earningTypes && state.firestore.ordered.earningTypes.length > 0) {
+
+        earningtype = state.firestore.ordered.earningTypes.filter(earningtype => earningtype.id === earningtypeid)[0] || {}
     }
 
     return {
-        earningtype
+        earningtype,
+        auth: state.firebase.auth
     }
 
 
@@ -38,7 +40,7 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
                             <Icon size="large" color="teal" name="info" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <p>{earningtype.EarningTypeName}</p>
+                            <p>{earningtype.EarningType}</p>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -48,7 +50,7 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
                             <Icon size="large" color="teal" name="info" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <p>{earningtype.PersonID}</p>
+                            <p>{earningtype.PersonName}</p>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -58,7 +60,7 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
                             <Icon name="calendar" size="large" color="teal" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span>{earningtype.EarningType_Created}</span>
+                            <span>{earningtype.created}</span>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -69,4 +71,4 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
     }
 }
 
-export default withRouter(connect(mapState)(EarningTypeDetailedInfo));
+export default withFirestore((connect(mapState)(EarningTypeDetailedInfo)));

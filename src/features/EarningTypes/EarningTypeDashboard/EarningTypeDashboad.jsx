@@ -2,22 +2,25 @@ import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react';
 import EarningTypeList from '../EarningTypeList/EarningTypeList';
 import { connect } from 'react-redux';
-import { createEartype, updateEartype, deleteEartype } from '../../EarningTypes/earningtypeActions';
+import { createEarningType, updateEarningType, deleteEarningType } from '../../EarningTypes/earningtypeActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent'
+import { compose } from 'redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 
 
 
 const mapState = (state) => ({
-    earningtypes: state.earningtypes,
+    earningtypes: state.firestore.ordered.earningTypes,
+    auth: state.firebase.auth,
     loading: state.async.loading
 })
 
 
 const actions = {
-    createEartype,
-    updateEartype,
-    deleteEartype
+    createEarningType,
+    updateEarningType,
+    deleteEarningType
 }
 
 
@@ -32,9 +35,9 @@ class EarningTypeDashboard extends Component {
 
     render() {
 
-        const { earningtypes, loading } = this.props;
+        const { earningtypes } = this.props;
+        if (!isLoaded(earningtypes)) return <LoadingComponent />;
 
-        if (loading) return <LoadingComponent />
         return (
             <Grid>
                 <Grid.Column width={12}>
@@ -49,4 +52,16 @@ class EarningTypeDashboard extends Component {
     }
 }
 
-export default connect(mapState, actions)(EarningTypeDashboard)
+export default compose(connect(mapState, actions),
+    firestoreConnect((props) => {
+        if (!props.auth.uid) return []
+        return [
+            {
+                collection: 'earningTypes',
+                where: [
+                    ['createdUID', '==', props.auth.uid]
+                ]
+
+            }
+        ]
+    }))(EarningTypeDashboard);

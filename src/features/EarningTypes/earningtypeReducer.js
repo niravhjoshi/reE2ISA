@@ -1,5 +1,5 @@
 import {createReducer} from '../../app/common/utils/reducerUtils';
-import { CREATE_EAR_TYPE,UPDATE_EAR_TYPE,DELETE_EAR_TYPE,FETCH_EAR_TYPE } from './earningtypeConstants';
+import { CREATE_EAR_TYPE,UPDATE_EAR_TYPE,DELETE_EAR_TYPE } from './earningtypeConstants';
 
 const initState =[]
 
@@ -21,14 +21,9 @@ const deleteEartype = (state,payload) =>{
 }
 
 
-const fetchEartype = (state,payload) =>{
-        return payload.earningtypes
-}
-
 
 export default createReducer(initState,{
     [CREATE_EAR_TYPE]: createEartype,
     [UPDATE_EAR_TYPE]: updateEartype,
-    [DELETE_EAR_TYPE]: deleteEartype,
-    [FETCH_EAR_TYPE]: fetchEartype
+    [DELETE_EAR_TYPE]: deleteEartype
 } )

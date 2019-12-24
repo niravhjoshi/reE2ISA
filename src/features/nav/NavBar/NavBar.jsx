@@ -55,9 +55,12 @@ class NavBar extends Component {
               </Menu.Item>}
 
 
+              <Menu.Item name="Earnings Types" as={NavLink} to='/EarningTypes' />
+              {this.props.location.pathname === '/EarningTypes' && <Menu.Item>
+                <Button floated="right" as={Link} to='/CreateEarningType' positive inverted content="Create EarningTypes" />
+              </Menu.Item>}
 
               <Menu.Item name="Investments" as={NavLink} to='/Investments' />
-              <Menu.Item name="Earnings Types" as={NavLink} to='/EarningTypes' />
               <Menu.Item name="Shares" as={NavLink} to='/Shares' />
               <Menu.Item name="Analytics" as={NavLink} to='/Analytics' />
               <Menu.Item name="Expenses" as={NavLink} to='/Expenses' />

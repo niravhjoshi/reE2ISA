@@ -6,14 +6,13 @@ class EarningTypeList extends Component {
         const { earningtypes, deleteEartype } = this.props;
         return (
             <Fragment>
-                {earningtypes.map(earningtype => (
+                {earningtypes && earningtypes.map(earningtype => (
                     <EarningTypeListitem
                         key={earningtype.id}
-                        earningtypes={earningtype}
+                        earningtype={earningtype}
                         deleteEartype={deleteEartype} />
+
                 ))}
-
-
             </Fragment>
         )
     }
