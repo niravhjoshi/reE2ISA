@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
 import { isEmpty } from 'react-redux-firebase';
 import { withFirestore } from 'react-redux-firebase';
-
+import { format } from 'date-fns';
 
 const mapState = (state, ownProps) => {
 
@@ -60,7 +60,7 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
                             <Icon name="calendar" size="large" color="teal" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span>{earningtype.created}</span>
+                            <span> {earningtype.created && format(earningtype.created.toDate(), 'EEEE do LLL')} at {format(earningtype.created.toDate(), 'h:mm a')}</span>
                         </Grid.Column>
                     </Grid>
                 </Segment>

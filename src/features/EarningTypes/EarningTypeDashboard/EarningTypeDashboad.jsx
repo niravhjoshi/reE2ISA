@@ -28,7 +28,7 @@ class EarningTypeDashboard extends Component {
 
 
     handleDeleteEarningtype = eartypeid => {
-        this.props.deleteEartype(eartypeid);
+        this.props.deleteEarningType(eartypeid);
     }
 
 
@@ -41,7 +41,7 @@ class EarningTypeDashboard extends Component {
         return (
             <Grid>
                 <Grid.Column width={12}>
-                    <EarningTypeList earningtypes={earningtypes} deleteEartype={this.handleDeleteEarningtype} />
+                    <EarningTypeList earningtypes={earningtypes} deleteEarningType={this.handleDeleteEarningtype} />
                 </Grid.Column>
                 <Grid.Column width={3}>
 

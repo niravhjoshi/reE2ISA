@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 class EarningTypeListitem extends Component {
     render() {
 
-        const { earningtype, deleteEartype } = this.props;
+        const { earningtype, deleteEarningType } = this.props;
 
         return (
             <Table celled>
@@ -26,7 +26,6 @@ class EarningTypeListitem extends Component {
 
                         <Table.Cell collapsing>{earningtype.EarningType}</Table.Cell>
                         <Table.Cell collapsing>{earningtype.PersonName}</Table.Cell>
-                        {/* <Table.Cell collapsing>{earningtype.created}<Icon name="clock" /></Table.Cell> */}
                         <Table.Cell collapsing>{earningtype.created && format(earningtype.created.toDate(), 'EEEE do LLL')} at {format(earningtype.created.toDate(), 'h:mm a')}<Icon name="clock" /></Table.Cell>
 
                         <Table.Cell collapsing>{earningtype.CreatorName}</Table.Cell>
@@ -34,7 +33,7 @@ class EarningTypeListitem extends Component {
 
                         <Table.Cell collapsing>
                             <Button inverted color='teal' as={Link} to={`/EarningTypes/${earningtype.id}`}>View</Button>
-                            <Button inverted color='red' onClick={() => deleteEartype(earningtype.id)}>Delete</Button>
+                            <Button inverted color='red' onClick={() => deleteEarningType(earningtype.id)}>Delete</Button>
 
                         </Table.Cell>
 

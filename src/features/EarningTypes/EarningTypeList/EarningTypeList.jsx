@@ -3,14 +3,14 @@ import EarningTypeListitem from './EarningTypeListitem';
 
 class EarningTypeList extends Component {
     render() {
-        const { earningtypes, deleteEartype } = this.props;
+        const { earningtypes, deleteEarningType } = this.props;
         return (
             <Fragment>
                 {earningtypes && earningtypes.map(earningtype => (
                     <EarningTypeListitem
                         key={earningtype.id}
                         earningtype={earningtype}
-                        deleteEartype={deleteEartype} />
+                        deleteEarningType={deleteEarningType} />
 
                 ))}
             </Fragment>
