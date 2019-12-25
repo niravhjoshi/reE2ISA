@@ -43,8 +43,6 @@ class App extends Component {
                         <Container className='main'>
                             <Switch key={this.props.location.key}>
                                 {/* Person Routes */}
-                                <Route exact path='/Persons' component={PersonDashboard} />
-                                <Route path='/Persons/:id' component={PersonsDetail} />
                                 <Route path={['/CreatePerson']} component={PersonCreateForm} />
                                 <Route exact path='/Persons' component={PersonDashboard} />
                                 <Route path='/Persons/:id' component={PersonsDetail} />
@@ -54,7 +52,7 @@ class App extends Component {
                                 <Route exact path='/EarningTypes' component={EarningDashboard} />
                                 <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
                                 <Route path={['/CreateEarningType']} component={EarningTypeForm} />
-
+                                <Route path={['/manageEarningTyeps']} component={EarningTypeForm} />
 
                                 {/* Share Page Routes */}
                                 <Route path='/Shares' component={SharesDetailedPage} />
