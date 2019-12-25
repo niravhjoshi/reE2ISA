@@ -1,10 +1,11 @@
 import React from 'react'
-import { Segment, Grid, Icon } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { isEmpty } from 'react-redux-firebase';
 import { withFirestore } from 'react-redux-firebase';
 import { format } from 'date-fns';
+import { deleteEarningType } from '../../EarningTypes/earningtypeActions';
 
 const mapState = (state, ownProps) => {
 
@@ -18,14 +19,21 @@ const mapState = (state, ownProps) => {
 
     return {
         earningtype,
+
         auth: state.firebase.auth
     }
 
 
 }
+const actions = {
+
+    deleteEarningType
+}
 
 
-const EarningTypeDetailedInfo = ({ earningtype }) => {
+
+const EarningTypeDetailedInfo = ({ earningtype, deleteEarningType }) => {
+
     if (typeof earningtype === "undefined" || isEmpty(earningtype)) {
         return <Redirect to={{ pathname: "/EarningTypes" }} />;
     }
@@ -65,10 +73,19 @@ const EarningTypeDetailedInfo = ({ earningtype }) => {
                     </Grid>
                 </Segment>
 
+                <Segment attached="bottom">
+                    {/* <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
+                        Delete Person</Button> */}
 
+                    <Button color="red" floated="right" onClick={() => deleteEarningType(earningtype.id)}>
+                        Delete Earning Type</Button>
+                    <Button inverted color='orange' onClick={() => deleteEarningType(earningtype.id)}>
+                        Manage Earning Type
+                </Button>
+                </Segment>
             </Segment.Group>
         )
     }
 }
 
-export default withFirestore((connect(mapState)(EarningTypeDetailedInfo)));
+export default withFirestore((connect(mapState, actions)(EarningTypeDetailedInfo)));
