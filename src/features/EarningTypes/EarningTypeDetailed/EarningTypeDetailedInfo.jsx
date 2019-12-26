@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from "react-router-dom";
-import { isEmpty } from 'react-redux-firebase';
 import { withFirestore } from 'react-redux-firebase';
 import { format } from 'date-fns';
 import { deleteEarningType } from '../../EarningTypes/earningtypeActions';
+import { toastr } from 'react-redux-toastr';
+import { Link } from 'react-router-dom';
+
 
 const mapState = (state, ownProps) => {
 
@@ -19,26 +20,41 @@ const mapState = (state, ownProps) => {
 
     return {
         earningtype,
-
         auth: state.firebase.auth
     }
 
 
 }
+
+
 const actions = {
 
     deleteEarningType
 }
 
 
+class EarningTypeDetailedInfo extends Component {
 
-const EarningTypeDetailedInfo = ({ earningtype, deleteEarningType }) => {
-
-    if (typeof earningtype === "undefined" || isEmpty(earningtype)) {
-        return <Redirect to={{ pathname: "/EarningTypes" }} />;
+    handleDeleteEarningtype = eartypeid => {
+        this.props.deleteEarningType(eartypeid);
+        // this.history.push('/earningTypes')
     }
 
-    else {
+
+    async componentDidMount() {
+        const { firestore, match, history } = this.props;
+        let earningtype = await firestore.get(`earningTypes/${match.params.id}`);
+
+        if (!earningtype.exists) {
+            history.push('/earningtypes')
+            toastr.error('Sorry ', 'Earning Types not found');
+        }
+
+    }
+
+    render() {
+
+        const { deleteEarningType, earningtype } = this.props;
 
         return (
             <Segment.Group>
@@ -68,7 +84,8 @@ const EarningTypeDetailedInfo = ({ earningtype, deleteEarningType }) => {
                             <Icon name="calendar" size="large" color="teal" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span> {earningtype.created && format(earningtype.created.toDate(), 'EEEE do LLL')} at {format(earningtype.created.toDate(), 'h:mm a')}</span>
+                            {/* <span> {earningtype.created && format(earningtype.created.toDate(), 'EEEE do LLL')} at {format(earningtype.created.toDate(), 'h:mm a')}</span> */}
+                            <span>{earningtype.created && format(earningtype.created.toDate(), 'EEEE do LLL')}</span>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -77,15 +94,19 @@ const EarningTypeDetailedInfo = ({ earningtype, deleteEarningType }) => {
                     {/* <Button color="red" onClick={() => this.handleDeletePerson(person.id)}>
                         Delete Person</Button> */}
 
-                    <Button color="red" floated="right" onClick={() => deleteEarningType(earningtype.id)}>
-                        Delete Earning Type</Button>
-                    <Button inverted color='orange' onClick={() => deleteEarningType(earningtype.id)}>
+                    <Button inverted color='orange' floated="right" as={Link} to={`/manageEarningType/${earningtype.id}`}>
                         Manage Earning Type
                 </Button>
+
+                    <Button color="red" onClick={() => deleteEarningType(earningtype.id)}>
+                        Delete Earning Type</Button>
+
                 </Segment>
             </Segment.Group>
         )
+
     }
 }
 
 export default withFirestore((connect(mapState, actions)(EarningTypeDetailedInfo)));
+// export default (EarningTypeDetailedInfo);

@@ -55,8 +55,8 @@ class NavBar extends Component {
               </Menu.Item>}
 
 
-              <Menu.Item name="Earnings Types" as={NavLink} to='/EarningTypes' />
-              {this.props.location.pathname === '/EarningTypes' && <Menu.Item>
+              <Menu.Item name="Earnings Types" as={NavLink} to='/earningtypes' />
+              {this.props.location.pathname === '/earningtypes' && <Menu.Item>
                 <Button floated="right" as={Link} to='/CreateEarningType' positive inverted content="Create EarningTypes" />
               </Menu.Item>}
 

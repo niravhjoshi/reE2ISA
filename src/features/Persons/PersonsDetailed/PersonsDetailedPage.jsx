@@ -5,10 +5,9 @@ import PersonDetailedInfo from './PersonDetailedInfo';
 import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
 import { withFirestore } from 'react-redux-firebase';
-
 import { deletePerson } from '../personsActions';
 import { toastr } from 'react-redux-toastr';
-// import { firestoreConnect } from 'react-redux-firebase';
+
 
 
 const mapState = (state, ownProps) => {

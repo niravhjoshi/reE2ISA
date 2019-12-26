@@ -59,12 +59,12 @@ class EarningTypeForm extends Component {
         try {
             if (this.props.initialValues.id) {
                 this.props.updateEarningType(values);
-                this.props.history.push(`/earningTypes/${this.props.initialValues.id}`)
+                this.props.history.push(`/earningtype/${this.props.initialValues.id}`)
             }
             else {
                 // values.BirthDate = new Date(values.BirthDate)
                 let createdEarningType = await this.props.createEarningType(values);
-                this.props.history.push(`/earningTypes/${createdEarningType.id}`)
+                this.props.history.push(`/earningtype/${createdEarningType.id}`)
             }
         }
         catch (error) {
@@ -96,8 +96,8 @@ class EarningTypeForm extends Component {
                                 Submit
                             </Button>
                             <Button type="button" onClick={initialValues.id
-                                ? () => history.push(`/earningTypes/${initialValues.id}`)
-                                : () => history.push('/earningTypes')
+                                ? () => history.push(`/earningtype/${initialValues.id}`)
+                                : () => history.push('/earningtypes')
 
                             }>Cancel</Button>
                         </Form>

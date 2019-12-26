@@ -53,6 +53,7 @@ export const deleteEarningType = (earningTypeId) =>{
                              {earningTypeId:earningTypeId})
                              
             })
+            
         }
         catch(error){
             toastr.error('Opps !','Something went wrong while delete Earning Type Entry');

@@ -32,7 +32,7 @@ class EarningTypeListitem extends Component {
 
 
                         <Table.Cell collapsing>
-                            <Button inverted color='teal' as={Link} to={`/EarningTypes/${earningtype.id}`}>View</Button>
+                            <Button inverted color='teal' as={Link} to={`/earningtype/${earningtype.id}`}>View</Button>
                             <Button inverted color='red' onClick={() => deleteEarningType(earningtype.id)}>Delete</Button>
 
                         </Table.Cell>

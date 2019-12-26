@@ -55,7 +55,9 @@ export const deletePerson = (personId) =>{
                              await firestore.delete(`persons/${personId}`,
                              {personId:personId})
                              
+                             
             })
+            
         }
         catch(error){
             toastr.error('Opps !','Something went wrong while delete person');

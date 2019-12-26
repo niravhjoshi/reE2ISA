@@ -16,7 +16,7 @@ import PersonCreateForm from '../../features/Persons/PersonForm/PersonCreateForm
 import PersonEditForm from '../../features/Persons/PersonForm/PersonEditForm';
 
 import EarningTypeDetail from '../../features/EarningTypes/EarningTypeDetailed/EarningTypeDetailedInfo';
-import EarningDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
+import EarningTypeDashboard from '../../features/EarningTypes/EarningTypeDashboard/EarningTypeDashboad';
 import EarningTypeForm from '../../features/EarningTypes/EarningTypeForm/EarningTypeForm';
 
 import SettingsDashboard from '../../features/Users/Settings/SettingsDashboard';
@@ -49,10 +49,10 @@ class App extends Component {
                                 <Route path={['/managePerson/:id']} component={PersonEditForm} />
 
                                 {/* Earning Types Routes */}
-                                <Route exact path='/EarningTypes' component={EarningDashboard} />
-                                <Route path='/EarningTypes/:id' component={EarningTypeDetail} />
+                                <Route exact path='/earningtypes' component={EarningTypeDashboard} />
+                                <Route path='/earningtype/:id' component={EarningTypeDetail} />
                                 <Route path={['/CreateEarningType']} component={EarningTypeForm} />
-                                <Route path={['/manageEarningTyeps']} component={EarningTypeForm} />
+                                <Route path={['/manageEarningType/:id']} component={EarningTypeForm} />
 
                                 {/* Share Page Routes */}
                                 <Route path='/Shares' component={SharesDetailedPage} />
