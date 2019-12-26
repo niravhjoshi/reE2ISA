@@ -16,7 +16,7 @@ const updateEartype = (state,payload) =>{
 
 const deleteEartype = (state,payload) =>{
     return [
-        ...state.filter(earningtypes => earningtypes.id !== payload.eartypeid)
+        ...state.filter(earningTypes => earningTypes.id !== payload.eartypeid)
     ]
 }
 

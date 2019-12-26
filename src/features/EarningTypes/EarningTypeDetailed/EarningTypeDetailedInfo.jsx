@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withFirestore } from 'react-redux-firebase';
 import { format } from 'date-fns';
 import { deleteEarningType } from '../../EarningTypes/earningtypeActions';
-import { toastr } from 'react-redux-toastr';
+// import { toastr } from 'react-redux-toastr';
 import { Link } from 'react-router-dom';
 
 
@@ -35,20 +35,22 @@ const actions = {
 
 class EarningTypeDetailedInfo extends Component {
 
-    handleDeleteEarningtype = eartypeid => {
-        this.props.deleteEarningType(eartypeid);
-        // this.history.push('/earningTypes')
-    }
+    // handleDeleteEarningtype = eartypeid => {
+    //     this.props.deleteEarningType(eartypeid);
+
+    // }
 
 
     async componentDidMount() {
-        const { firestore, match, history } = this.props;
-        let earningtype = await firestore.get(`earningTypes/${match.params.id}`);
+        const { firestore, match } = this.props;
+        await firestore.setListener(`earningTypes/${match.params.id}`);
 
-        if (!earningtype.exists) {
-            history.push('/earningtypes')
-            toastr.error('Sorry ', 'Earning Types not found');
-        }
+
+    }
+
+    async componentWillUnmount() {
+        const { firestore, match } = this.props;
+        await firestore.unsetListener(`earningTypes/${match.params.id}`);
 
     }
 

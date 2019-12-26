@@ -2,7 +2,6 @@ import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
 
 
-
 export const createEarningType = EarningType => {
     return async (dispatch,getState,{getFirestore,getFirebase}) =>{
         const firestore = getFirestore();
@@ -49,9 +48,10 @@ export const deleteEarningType = (earningTypeId) =>{
         try{
             toastr.confirm(message, {
                 onOk: async() => 
-                             await firestore.delete(`earningTypes/${earningTypeId}`,
-                             {earningTypeId:earningTypeId})
+                             await firestore.delete(`earningTypes/${earningTypeId}`)
                              
+                    
+
             })
             
         }

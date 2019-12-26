@@ -29,6 +29,7 @@ class EarningTypeDashboard extends Component {
 
     handleDeleteEarningtype = eartypeid => {
         this.props.deleteEarningType(eartypeid);
+        // this.props.history.push('/earningtypes')
     }
 
 
