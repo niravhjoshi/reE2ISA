@@ -4,9 +4,9 @@ import PersonsDetailedHeader from './PersonsDetailedHeader';
 import PersonDetailedInfo from './PersonDetailedInfo';
 import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
-import { withFirestore } from 'react-redux-firebase';
+import { withFirestore, isEmpty } from 'react-redux-firebase';
 import { deletePerson } from '../personsActions';
-import { toastr } from 'react-redux-toastr';
+
 
 
 
@@ -37,25 +37,21 @@ class PersonsDetail extends Component {
     }
 
     async componentDidMount() {
-        const { firestore, match, history } = this.props;
-        let person = await firestore.get(`persons/${match.params.id}`);
-        if (!person.exists) {
+        const { firestore, match } = this.props;
+        await firestore.setListener(`persons/${match.params.id}`);
 
-            history.push('/persons')
-            toastr.error('Sorry ', 'Person not found');
-        }
 
     }
-    // async componentWillUnmount() {
-    //     const { firestore, match } = this.props;
-    //     await firestore.unsetListener(`persons/${match.params.id}`);
-    // }
+    async componentWillUnmount() {
+        const { firestore, match } = this.props;
+        await firestore.unsetListener(`persons/${match.params.id}`);
+    }
 
     render() {
-        const { person } = this.props;
-        // if (typeof person === "undefined" || isEmpty(person)) {
-        //     return <Redirect to={{ pathname: "/persons" }} />;
-        // }
+        const { person, history } = this.props;
+        if (typeof person === "undefined" || isEmpty(person)) {
+            history.push('/persons')
+        }
 
 
         return (

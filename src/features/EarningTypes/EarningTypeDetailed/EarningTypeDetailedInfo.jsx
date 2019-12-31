@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { withFirestore } from 'react-redux-firebase';
+import { withFirestore, isEmpty } from 'react-redux-firebase';
 import { format } from 'date-fns';
 import { deleteEarningType } from '../../EarningTypes/earningtypeActions';
-// import { toastr } from 'react-redux-toastr';
 import { Link } from 'react-router-dom';
 
 
@@ -35,17 +34,10 @@ const actions = {
 
 class EarningTypeDetailedInfo extends Component {
 
-    // handleDeleteEarningtype = eartypeid => {
-    //     this.props.deleteEarningType(eartypeid);
-
-    // }
-
 
     async componentDidMount() {
         const { firestore, match } = this.props;
         await firestore.setListener(`earningTypes/${match.params.id}`);
-
-
     }
 
     async componentWillUnmount() {
@@ -56,7 +48,11 @@ class EarningTypeDetailedInfo extends Component {
 
     render() {
 
-        const { deleteEarningType, earningtype } = this.props;
+        const { deleteEarningType, earningtype, history } = this.props;
+
+        if (typeof earningtype === "undefined" || isEmpty(earningtype)) {
+            history.push('/earningtypes')
+        }
 
         return (
             <Segment.Group>
