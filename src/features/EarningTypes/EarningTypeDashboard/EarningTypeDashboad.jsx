@@ -10,7 +10,7 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 
 
-const mapState = (state) => ({
+const mapStatetoProps = (state) => ({
     earningtypes: state.firestore.ordered.earningTypes,
     auth: state.firebase.auth,
     loading: state.async.loading
@@ -53,7 +53,7 @@ class EarningTypeDashboard extends Component {
     }
 }
 
-export default compose(connect(mapState, actions),
+export default compose(connect(mapStatetoProps, actions),
     firestoreConnect((props) => {
         if (!props.auth.uid) return []
         return [

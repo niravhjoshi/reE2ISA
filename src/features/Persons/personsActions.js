@@ -2,6 +2,38 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/
 import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
 import cuid from "cuid";
+import firebase from '../../app/config/firebase';
+import { FETCH_PERSON } from "./personsConstants";
+
+
+export const getPersonsForDashboard = lastPerson => async (dispatch,getState) => {
+    let today = new Date();
+    const firestore = firebase.firestore();
+    const curreUser = firebase.auth().currentUser;
+    console.log(curreUser.uid)
+    const personsref = firestore.collection('persons').where("createdUID", "==", curreUser.uid);
+    console.log(personsref)
+
+    try{
+        dispatch(asyncActionStart);
+        let querySnap = await personsref.get()
+        let persons=[]
+        for(let i=0;i<querySnap.docs.length;i++){
+            let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+            persons.push(per)
+        }
+        // console.log(person)
+        dispatch({type : FETCH_PERSON, payload : {persons}})
+        dispatch(asyncActionFinish)
+    }
+    
+
+    catch(error){
+        console.log(error)
+        dispatch(asyncActionError)
+    }
+
+};
 
 
 

@@ -5,29 +5,47 @@ import { reduxForm, Field } from 'redux-form';
 import { composeValidators, combineValidators, isRequired, hasLengthBetween } from 'revalidate';
 import { createEarningType, updateEarningType, deleteEarningType } from '../earningtypeActions';
 import TextInput from '../../../app/form/TextInput';
+import { withFirestore, firestoreConnect } from 'react-redux-firebase';
 import SelectInput from '../../../app/form/SelectInput';
-import { withFirestore } from 'react-redux-firebase';
+import { compose } from 'redux';
 
-const SexType = [
-    { key: 'Male', text: 'Male', value: 'Male' },
-    { key: 'Female', text: 'Female', value: 'Female' },
-    { key: 'None', text: 'None', value: 'None' },
+var PersonsArray = [
+    { rno: '1', retx: 'Harry', rvalue: 'Harry' },
+    { rno: '2', retx: 'John', rvalue: 'John' },
+    { rno: '3', retx: 'Jane', rvalue: 'Jane' },
 
 ];
+
+for (var i = 0; i < PersonsArray.length; i++) {
+    PersonsArray[i].key = PersonsArray[i].rno;
+    PersonsArray[i].text = PersonsArray[i].retx;
+    PersonsArray[i].value = PersonsArray[i].rvalue;
+    delete PersonsArray[i].rno;
+    delete PersonsArray[i].retx;
+    delete PersonsArray[i].rvalue;
+    // console.log(PersonsArray)
+
+}
+//console.log(PersonsArray)
 
 const actions = { createEarningType, updateEarningType, deleteEarningType };
 
 const mapState = (state, ownProps) => {
     const earningTypeID = ownProps.match.params.id;
     let earningType = {};
+    let personsName = [];
+    personsName = state.firestore.ordered.persons
     if (state.firestore.ordered.earningTypes && state.firestore.ordered.earningTypes.length > 0) {
         earningType = state.firestore.ordered.earningTypes.filter(earningType => earningType.id === earningTypeID)[0] || {};
-    }
 
+    }
 
     return {
         initialValues: earningType,
-        earningType
+        earningType,
+        auth: state.firebase.auth,
+        personsName
+
     }
 
 }
@@ -54,7 +72,6 @@ class EarningTypeForm extends Component {
         await firestore.unsetListener(`earningTypes/${match.params.id}`);
     }
 
-
     onFormSubmit = async values => {
         try {
             if (this.props.initialValues.id) {
@@ -72,8 +89,25 @@ class EarningTypeForm extends Component {
         }
     }
 
+
     render() {
-        const { history, initialValues, invalid, submitting, pristine } = this.props;
+        const { history, initialValues, invalid, submitting, pristine, personsName } = this.props;
+
+        personsName && console.log(personsName)
+
+        for (var i = 0; i < personsName.length; i++) {
+            personsName[i].key = personsName[i].id;
+            personsName[i].text = personsName[i].FullName;
+            personsName[i].value = personsName[i].FullName;
+            delete personsName[i].id;
+            delete personsName[i].FullName;
+
+            // console.log(PersonsArray)
+
+        }
+        console.log(personsName)
+
+
 
         return (
             <Grid>
@@ -83,14 +117,7 @@ class EarningTypeForm extends Component {
                         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)} autoComplete='off'>
 
                             <Field name='EarningType' component={TextInput} placeholder="Earning Types" />
-
-                            {/* <Field name='BirthDate' component={DateInput}
-                                dateFormat="dd LLL yyyy h:mm a"
-                                showTimeSelect
-                                timeFormat='HH:mm'
-                                placeholder="Birth Date" /> */}
-                            <Header sub color='teal' content='Person Type' />
-                            <Field name='PersonName' component={SelectInput} options={SexType} placeholder="Select Your Person for " />
+                            <Field name='PersonName' component={SelectInput} options={personsName} placeholder="Select Your Person" />
 
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
                                 Submit
@@ -114,3 +141,16 @@ export default withFirestore(connect(mapState, actions)(
     reduxForm({ form: 'EarningTypeForm', validate, enableReinitialize: true })(EarningTypeForm)));
 
 
+// export default compose(connect(mapState, actions),
+//     firestoreConnect((props) => {
+//         if (!props.auth.uid) return []
+//         return [
+//             {
+//                 collection: 'persons',
+//                 where: [
+//                     ['createdUID', '==', props.auth.uid]
+//                 ]
+
+//             }
+//         ]
+//     }), reduxForm({ form: 'EarningTypeForm', validate, enableReinitialize: true }))(EarningTypeForm);

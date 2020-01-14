@@ -1,6 +1,6 @@
 
 import {createReducer} from '../../app/common/utils/reducerUtils';
-import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON } from './personsConstants';
+import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON,FETCH_PERSON } from './personsConstants';
 
 const initState =[]
 
@@ -21,10 +21,15 @@ const deletePerson = (state,payload) =>{
     ]
 }
 
+const fetchPerson = (state,payload) =>{
+    return payload.persons
+    
+}
 
 export default createReducer(initState,{
     [CREATE_PERSON]: createPerson,
     [UPDATE_PERSON]: updatePerson ,
-    [DELETE_PERSON]: deletePerson
+    [DELETE_PERSON]: deletePerson,
+    [FETCH_PERSON] : fetchPerson
     
 } )

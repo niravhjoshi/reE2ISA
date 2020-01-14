@@ -1,6 +1,8 @@
 import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
 
+        
+        
 
 export const createEarningType = EarningType => {
     return async (dispatch,getState,{getFirestore,getFirebase}) =>{
