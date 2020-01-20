@@ -8,8 +8,6 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 
-
-
 const mapStatetoProps = (state) => ({
     earningtypes: state.firestore.ordered.earningTypes,
     auth: state.firebase.auth,
@@ -20,19 +18,28 @@ const mapStatetoProps = (state) => ({
 const actions = {
     createEarningType,
     updateEarningType,
-    deleteEarningType
+    deleteEarningType,
+
 }
 
 
 class EarningTypeDashboard extends Component {
 
+    state = {
+
+        loadedpersons: []
+    }
 
     handleDeleteEarningtype = eartypeid => {
         this.props.deleteEarningType(eartypeid);
         // this.props.history.push('/earningtypes')
     }
 
+    async componentDidMount() {
 
+        console.log(this.props)
+
+    }
 
     render() {
 

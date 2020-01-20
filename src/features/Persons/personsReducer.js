@@ -5,7 +5,7 @@ import { CREATE_PERSON, UPDATE_PERSON, DELETE_PERSON,FETCH_PERSON } from './pers
 const initState =[]
 
 const createPerson = (state,payload) =>{
-    return [...state,payload.person]
+    return [...state,payload.createdPerson]
 }
 
 const updatePerson = (state,payload) =>{

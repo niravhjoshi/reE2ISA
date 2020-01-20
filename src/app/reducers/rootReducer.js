@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     persons:personsReducer,
     earningtypes:earningtypeReducer,
     modals: modalReducer,
-    auth:authReducer,
+    // auth:authReducer,
     async:asyncReducer,
     toastr:ToastrReducer
 })

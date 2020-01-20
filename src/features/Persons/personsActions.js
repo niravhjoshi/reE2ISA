@@ -3,37 +3,35 @@ import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
 import cuid from "cuid";
 import firebase from '../../app/config/firebase';
-import { FETCH_PERSON } from "./personsConstants";
+import { FETCH_PERSON,CREATE_PERSON,DELETE_PERSON } from "./personsConstants";
 
+ 
 
-export const getPersonsForDashboard = lastPerson => async (dispatch,getState) => {
-    let today = new Date();
-    const firestore = firebase.firestore();
-    const curreUser = firebase.auth().currentUser;
-    console.log(curreUser.uid)
-    const personsref = firestore.collection('persons').where("createdUID", "==", curreUser.uid);
-    console.log(personsref)
+export const getPersonDB = () =>async (dispatch, getState) => { 
+        const firestore = firebase.firestore();
+        const userId = getState().firebase['auth']['uid']
+        console.log(userId)
+        const personsref = firestore.collection('persons').where("createdUID", "==", userId);
 
-    try{
-        dispatch(asyncActionStart);
-        let querySnap = await personsref.get()
-        let persons=[]
-        for(let i=0;i<querySnap.docs.length;i++){
-            let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
-            persons.push(per)
+        try{
+            dispatch(asyncActionStart);
+            let querySnap = await personsref.get()
+            let persons=[]
+            for(let i=0;i<querySnap.docs.length;i++){
+                let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+                persons.push(per)
+            }
+            dispatch({type : FETCH_PERSON, payload : {persons}})
+            dispatch(asyncActionFinish)
         }
-        // console.log(person)
-        dispatch({type : FETCH_PERSON, payload : {persons}})
-        dispatch(asyncActionFinish)
-    }
+        
     
-
-    catch(error){
-        console.log(error)
-        dispatch(asyncActionError)
-    }
-
-};
+        catch(error){
+            console.log(error)
+            dispatch(asyncActionError)
+        }
+    
+}
 
 
 
@@ -47,7 +45,11 @@ export const createPerson = person => {
         try{
             let createdPerson = await firestore.add('persons',newperson);
             toastr.success('Sucess!','Person has been created');
+            //console.log(createdPerson)
+            // dispatch({type : CREATE_PERSON, payload : {createdPerson}})
             return createdPerson;
+            
+            
         }
         catch(error){
             toastr.error('Opps !','Something went Wrong');
@@ -82,6 +84,7 @@ export const deletePerson = (personId) =>{
         ? 'Are you sure you want to delete the Person?'
         : 'This , are you sure?';
         try{
+            dispatch(asyncActionStart);
             toastr.confirm(message, {
                 onOk: async() => 
                              await firestore.delete(`persons/${personId}`,
@@ -89,6 +92,8 @@ export const deletePerson = (personId) =>{
                              
                              
             })
+            dispatch({type : DELETE_PERSON,payload : {personId}})
+            dispatch(asyncActionFinish)
             
         }
         catch(error){

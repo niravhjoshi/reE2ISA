@@ -1,8 +1,30 @@
 import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
+import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
+import firebase from '../../app/config/firebase';
 
         
-        
+
+
+// export const getPersons = (userUid) =>
+//     async(dispatch,getState) => {
+//         dispatch(asyncActionStart())
+//         const firestore = firebase.firestore();
+//         // let date = new Date(Date.now());
+//         let personref = firestore.collection('persons');
+//         let query;
+//         query= personref.where('createdUID','==',userUid);
+//                 try{
+//                     let querysnap = await query.get()
+//                     console.log(querysnap);
+//                     dispatch(asyncActionFinish())
+//                 }
+//                 catch(error){
+//                     console.log(error)
+//                     dispatch(asyncActionError())
+//                 }
+
+//     }
 
 export const createEarningType = EarningType => {
     return async (dispatch,getState,{getFirestore,getFirebase}) =>{

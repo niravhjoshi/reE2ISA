@@ -19,8 +19,20 @@ const mapState = (state) => ({
 
 class NavBar extends Component {
   state = {
-    authenticated: false
+    authenticated: false,
+    authUser: null
   }
+
+  // componentDidMount() {
+  //   this.props.firebase.auth.onAuthStateChanged(authUser => {
+  //     authUser
+  //       ? this.setState({ authUser })
+  //       : this.setState({ authUser: null });
+  //   });
+  // }
+  // componentWillUnmount() {
+  //   this.listener();
+  // }
   handleSignIn = () => {
     this.props.OpenModal('LoginModal')
   }

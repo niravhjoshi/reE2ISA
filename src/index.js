@@ -41,6 +41,10 @@ if(module.hot){
     })
 }
 
-render();
+
+store.firebaseAuthIsReady.then(() => {
+    render();
+  })
+  
 
 serviceWorker.unregister();

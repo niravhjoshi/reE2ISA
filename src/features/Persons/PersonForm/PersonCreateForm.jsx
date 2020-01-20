@@ -18,20 +18,20 @@ const SexType = [
 
 const actions = { createPerson, updatePerson, deletePerson };
 
-const mapState = (state, ownProps) => {
-    const personId = ownProps.match.params.id;
-    let person = {};
-    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
-        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {};
-    }
+// const mapState = (state, ownProps) => {
+//     const personId = ownProps.match.params.id;
+//     let person = {};
+//     if (state.persons && state.persons.length > 0) {
+//         person = state.persons.filter(person => person.id === personId)[0] || {};
+//     }
 
 
-    return {
-        initialValues: person,
-        person
-    }
+//     return {
+//         initialValues: person,
+//         person
+//     }
 
-}
+// }
 
 const validate = combineValidators({
     FullName: composeValidators(
@@ -53,24 +53,25 @@ const validate = combineValidators({
 
 class PersonCreateForm extends Component {
 
-    async componentDidMount() {
-        const { firestore, match } = this.props;
-        await firestore.setListener(`persons/${match.params.id}`);
-    }
+    // async componentDidMount() {
+    //     const { firestore, match } = this.props;
+    //     await firestore.setListener(`persons/${match.params.id}`);
+    // }
 
-    async componentWillUnmount() {
-        const { firestore, match } = this.props;
-        await firestore.unsetListener(`persons/${match.params.id}`);
-    }
+    // async componentWillUnmount() {
+    //     const { firestore, match } = this.props;
+    //     await firestore.unsetListener(`persons/${match.params.id}`);
+    // }
 
 
     onFormSubmit = async values => {
         try {
-            if (this.props.initialValues.id) {
-                this.props.updatePerson(values);
-                this.props.history.push(`/persons/${this.props.initialValues.id}`)
-            }
-            else {
+            // if (this.props.initialValues.id) {
+            //     this.props.updatePerson(values);
+            //     this.props.history.push(`/persons/${this.props.initialValues.id}`)
+            // }
+            // else 
+            {
                 values.BirthDate = new Date(values.BirthDate)
                 let createdPerson = await this.props.createPerson(values);
                 this.props.history.push(`/persons/${createdPerson.id}`)
@@ -82,7 +83,7 @@ class PersonCreateForm extends Component {
     }
 
     render() {
-        const { history, initialValues, invalid, submitting, pristine } = this.props;
+        const { history, invalid, submitting, pristine } = this.props;
 
         return (
             <Grid>
@@ -107,11 +108,7 @@ class PersonCreateForm extends Component {
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
                                 Submit
                             </Button>
-                            <Button type="button" onClick={initialValues.id
-                                ? () => history.push(`/persons/${initialValues.id}`)
-                                : () => history.push('/persons')
-
-                            }>Cancel</Button>
+                            <Button type="button" onClick={() => history.push('/persons')}>Cancel</Button>
                         </Form>
                     </Segment >
                 </Grid.Column>
@@ -122,7 +119,7 @@ class PersonCreateForm extends Component {
 }
 
 
-export default withFirestore(connect(mapState, actions)(
+export default withFirestore(connect(null, actions)(
     reduxForm({ form: 'PersonCreateForm', validate, enableReinitialize: true })(PersonCreateForm)));
 
 

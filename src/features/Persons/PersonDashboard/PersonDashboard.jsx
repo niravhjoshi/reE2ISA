@@ -1,92 +1,44 @@
 import React, { Component, createRef } from 'react'
-import { Grid, Loader } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import PersonList from '../PersonList/PersonList';
 import { connect } from 'react-redux';
-import { getPersonsForDashboard } from '../personsActions';
+import { getPersonDB, updatePerson, deletePerson } from '../personsActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { compose } from 'redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase'
-
-
 
 const mapStatetoProps = (state) => ({
     persons: state.persons,
-    loading: state.async.loading
+    loading: state.async.loading,
+    auth: state.firebase.auth
 
 })
 
-
-
 const actions = {
 
-    getPersonsForDashboard
+    getPersonDB,
+    updatePerson,
+    deletePerson
 }
 
 
 class PersonDashboard extends Component {
 
-    // contextRef = createRef();
-    // state = {
-    //     morepersons: false,
-    //     loadingInitial: true,
-    //     loadedPersons: []
-    // }
 
     async componentDidMount() {
-        this.props.getPersonsForDashboard();
-
-        // if (next && next.docs && next.docs.length > 1) {
-        //     this.setState({
-        //         morepersons: true,
-        //         loadingInitial: false
-        //     });
-        // }
+        this.props.getPersonDB();
+        // console.log(this.props)
     }
-
-    // componentDidUpdate = prevProps => {
-    //     if (this.props.persons !== prevProps.persons) {
-    //         this.setState({
-    //             loadedPersons: [...this.state.loadedPersons, ...this.props.persons]
-    //         });
-    //     }
-    // };
-
-    // getNextPersons = async () => {
-    //     const { persons } = this.props;
-    //     let lastPerson = persons && persons[persons.length - 1];
-    //     let next = await this.props.getEventsForDashboard(lastPerson);
-    //     if (next && next.docs && next.docs.length <= 1) {
-    //         this.setState({
-    //             morepersons: false
-    //         });
-    //     }
-    // };
-
 
 
     render() {
 
-        const { persons, loading } = this.props;
-        // const { morepersons, loadedPersons } = this.state;
-        // // if (this.state.loadingInitial) return <LoadingComponent />;
+        const { persons, loading, deletePerson } = this.props;
         if (loading) return <LoadingComponent />;
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <div ref={this.contextRef}>
-                        <PersonList
-                            // loading={loading}
-                            persons={persons}
-                            morepersons={persons}
-                            getNextPersons={this.getNextPersons}
-                            deletePerson={this.handleDeletePerson} />
-                        {/* <EarningTypeForm person={persons} /> */}
-                    </div>
+                    <PersonList persons={persons} deletePerson={deletePerson} />
                 </Grid.Column>
                 <Grid.Column width={10}>
-
-                    {/* <Loader active={loading} /> */}
-
                 </Grid.Column>
             </Grid>
 
@@ -95,19 +47,4 @@ class PersonDashboard extends Component {
 }
 
 export default connect(mapStatetoProps, actions)(PersonDashboard);
-
-// export default compose(connect(mapStatetoProps, actions),
-//     firestoreConnect((props) => {
-//         if (!props.auth.uid) return []
-//         return [
-//             {
-//                 collection: 'persons',
-//                 where: [
-//                     ['createdUID', '==', props.auth.uid]
-//                 ]
-
-//             }
-//         ]
-//     }))(PersonDashboard);
-
 
