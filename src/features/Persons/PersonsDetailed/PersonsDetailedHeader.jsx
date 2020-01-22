@@ -20,7 +20,7 @@ const personImageTextStyle =
 
 const PersonsDetailedHeader = ({
     person,
-    deletePerson,
+    deletePerson
 
 }) => {
 

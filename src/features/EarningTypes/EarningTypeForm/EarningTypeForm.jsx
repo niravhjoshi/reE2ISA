@@ -5,9 +5,9 @@ import { reduxForm, Field } from 'redux-form';
 import { composeValidators, combineValidators, isRequired, hasLengthBetween } from 'revalidate';
 import { createEarningType, updateEarningType, deleteEarningType } from '../earningtypeActions';
 import TextInput from '../../../app/form/TextInput';
-import { withFirestore, firestoreConnect } from 'react-redux-firebase';
+import { withFirestore } from 'react-redux-firebase';
 import SelectInput from '../../../app/form/SelectInput';
-import { compose } from 'redux';
+
 
 var PersonsArray = [
     { rno: '1', retx: 'Harry', rvalue: 'Harry' },

@@ -16,22 +16,9 @@ const SexType = [
 
 ];
 
-const actions = { createPerson, updatePerson, deletePerson };
-
-// const mapState = (state, ownProps) => {
-//     const personId = ownProps.match.params.id;
-//     let person = {};
-//     if (state.persons && state.persons.length > 0) {
-//         person = state.persons.filter(person => person.id === personId)[0] || {};
-//     }
 
 
-//     return {
-//         initialValues: person,
-//         person
-//     }
 
-// }
 
 const validate = combineValidators({
     FullName: composeValidators(
@@ -66,15 +53,14 @@ class PersonCreateForm extends Component {
 
     onFormSubmit = async values => {
         try {
-            // if (this.props.initialValues.id) {
-            //     this.props.updatePerson(values);
-            //     this.props.history.push(`/persons/${this.props.initialValues.id}`)
-            // }
-            // else 
-            {
+            if (this.props.initialValues.id) {
+                this.props.updatePerson(values);
+                this.props.history.push(`/persons/${this.props.initialValues.id}`)
+            }
+            else {
                 values.BirthDate = new Date(values.BirthDate)
                 let createdPerson = await this.props.createPerson(values);
-                this.props.history.push(`/persons/${createdPerson.id}`)
+                this.props.history.push(`/Persons/${createdPerson.id}`)
             }
         }
         catch (error) {
@@ -108,7 +94,7 @@ class PersonCreateForm extends Component {
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
                                 Submit
                             </Button>
-                            <Button type="button" onClick={() => history.push('/persons')}>Cancel</Button>
+                            <Button type="button" onClick={() => history.push('/Persons')}>Cancel</Button>
                         </Form>
                     </Segment >
                 </Grid.Column>
@@ -119,7 +105,25 @@ class PersonCreateForm extends Component {
 }
 
 
-export default withFirestore(connect(null, actions)(
+const mapStatetoProps = (state, ownProps) => {
+
+    const personId = ownProps.match.params.id;
+    let person = {};
+
+    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
+        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {};
+    }
+
+    return {
+        initialValues: person,
+        person
+    }
+
+}
+
+const actions = { createPerson, updatePerson, deletePerson };
+
+export default withFirestore(connect(mapStatetoProps, actions)(
     reduxForm({ form: 'PersonCreateForm', validate, enableReinitialize: true })(PersonCreateForm)));
 
 

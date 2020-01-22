@@ -1,7 +1,6 @@
 import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
-import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
-import firebase from '../../app/config/firebase';
+
 
         
 

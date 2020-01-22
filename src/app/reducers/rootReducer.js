@@ -4,7 +4,7 @@ import personsReducer from "../../features/Persons/personsReducer";
 import earningtypeReducer  from "../../features/EarningTypes/earningtypeReducer"
 import {reducer as FormReducer} from 'redux-form';
 import modalReducer from "../../features/modals/modalReducer";
-import authReducer from "../../features/auth/Register/authReducer";
+// import authReducer from "../../features/auth/Register/authReducer";
 import asyncReducer from "../../features/async/asyncReducer";
 import {reducer as ToastrReducer} from 'react-redux-toastr';
 import { firebaseReducer } from 'react-redux-firebase';

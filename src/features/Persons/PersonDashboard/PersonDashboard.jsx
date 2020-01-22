@@ -1,42 +1,32 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react';
 import PersonList from '../PersonList/PersonList';
 import { connect } from 'react-redux';
-import { getPersonDB, updatePerson, deletePerson } from '../personsActions';
+import { updatePerson, deletePerson, createPerson } from '../personsActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-
-const mapStatetoProps = (state) => ({
-    persons: state.persons,
-    loading: state.async.loading,
-    auth: state.firebase.auth
-
-})
-
-const actions = {
-
-    getPersonDB,
-    updatePerson,
-    deletePerson
-}
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase'
 
 
 class PersonDashboard extends Component {
 
+    // async componentDidMount() {
+    //     this.props.getPersonDB();
+    // }
 
-    async componentDidMount() {
-        this.props.getPersonDB();
-        // console.log(this.props)
+    handleDeletePerson = personID => {
+        this.props.deletePerson(personID);
     }
 
 
     render() {
 
-        const { persons, loading, deletePerson } = this.props;
+        const { persons, loading } = this.props;
         if (loading) return <LoadingComponent />;
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <PersonList persons={persons} deletePerson={deletePerson} />
+                    <PersonList persons={persons} deletePerson={this.handleDeletePerson} />
                 </Grid.Column>
                 <Grid.Column width={10}>
                 </Grid.Column>
@@ -46,5 +36,36 @@ class PersonDashboard extends Component {
     }
 }
 
-export default connect(mapStatetoProps, actions)(PersonDashboard);
+const mapStatetoProps = (state) => ({
+    persons: state.firestore.ordered.persons,
+    loading: state.async.loading,
+    auth: state.firebase.auth
 
+})
+
+const actions = {
+
+
+    updatePerson,
+    deletePerson,
+    createPerson
+}
+
+// export default connect(mapStatetoProps, actions)(PersonDashboard);
+export default compose(connect(mapStatetoProps, actions),
+    firestoreConnect((props) => {
+        if (!props.auth.uid) return []
+        return [
+            {
+                collection: 'persons',
+                where: [['createdUID', '==', props.auth.uid]],
+                orderBy: ['created', 'desc']
+
+            }
+        ]
+    }))(PersonDashboard);
+
+// export default connect(
+//     mapStatetoProps,
+//     actions
+// )(firestoreConnect([{ collection: 'persons' }])(PersonDashboard));

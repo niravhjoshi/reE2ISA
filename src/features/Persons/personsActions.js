@@ -2,36 +2,33 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/
 import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
 import cuid from "cuid";
-import firebase from '../../app/config/firebase';
-import { FETCH_PERSON,CREATE_PERSON,DELETE_PERSON } from "./personsConstants";
-
  
 
-export const getPersonDB = () =>async (dispatch, getState) => { 
-        const firestore = firebase.firestore();
-        const userId = getState().firebase['auth']['uid']
-        console.log(userId)
-        const personsref = firestore.collection('persons').where("createdUID", "==", userId);
+// export const getPersonDB = () =>async (dispatch, getState) => { 
+//         const firestore = firebase.firestore();
+//         const userId = getState().firebase['auth']['uid']
+//         // console.log(userId)
+//         const personsref = firestore.collection('persons').where("createdUID", "==", userId);
 
-        try{
-            dispatch(asyncActionStart);
-            let querySnap = await personsref.get()
-            let persons=[]
-            for(let i=0;i<querySnap.docs.length;i++){
-                let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
-                persons.push(per)
-            }
-            dispatch({type : FETCH_PERSON, payload : {persons}})
-            dispatch(asyncActionFinish)
-        }
+//         try{
+//             dispatch(asyncActionStart);
+//             let querySnap = await personsref.get()
+//             let persons=[]
+//             for(let i=0;i<querySnap.docs.length;i++){
+//                 let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+//                 persons.push(per)
+//             }
+//         //     dispatch({type : FETCH_PERSON, payload : {persons}})
+//         //     dispatch(asyncActionFinish)
+//         }
         
     
-        catch(error){
-            console.log(error)
-            dispatch(asyncActionError)
-        }
+//         catch(error){
+//             console.log(error)
+//             dispatch(asyncActionError)
+//         }
     
-}
+// }
 
 
 
@@ -42,13 +39,11 @@ export const createPerson = person => {
         const user = firebase.auth().currentUser;
         const photoURL= getState().firebase.profile.photoURL;
         const newperson = createNewPerson(user,photoURL,person)
-        try{
-            let createdPerson = await firestore.add('persons',newperson);
-            toastr.success('Sucess!','Person has been created');
-            //console.log(createdPerson)
-            // dispatch({type : CREATE_PERSON, payload : {createdPerson}})
+        try {
+
+            let createdPerson = await firestore.add('persons', newperson);
+            toastr.success('Sucess!', 'Person has been created');
             return createdPerson;
-            
             
         }
         catch(error){
@@ -83,17 +78,19 @@ export const deletePerson = (personId) =>{
         const message = personId
         ? 'Are you sure you want to delete the Person?'
         : 'This , are you sure?';
+        dispatch(asyncActionStart);
         try{
-            dispatch(asyncActionStart);
-            toastr.confirm(message, {
-                onOk: async() => 
-                             await firestore.delete(`persons/${personId}`,
-                             {personId:personId})
+                toastr.confirm(message, {
+                onOk: async() =>{ 
+                             await firestore.delete(`persons/${personId}`,{personId:personId})
+                             dispatch(asyncActionFinish);
+            
+                            }
                              
+                             
+                                              
                              
             })
-            dispatch({type : DELETE_PERSON,payload : {personId}})
-            dispatch(asyncActionFinish)
             
         }
         catch(error){

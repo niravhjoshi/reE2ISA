@@ -6,27 +6,8 @@ import PersonsDetailedSidebar from './PersonsDetailedSidebar';
 import { connect } from 'react-redux';
 import { withFirestore, isEmpty } from 'react-redux-firebase';
 import { deletePerson } from '../personsActions';
-
-
-const mapState = (state, ownProps) => {
-    const personId = ownProps.match.params.id;
-
-    let person = {};
-    if (state.persons && state.persons.length > 0) {
-
-        person = state.persons.filter(person => person.id === personId)[0] || {}
-    }
-
-    return {
-        person,
-        auth: state.firebase.auth
-    }
-}
-
-const actions = {
-    deletePerson,
-
-};
+import { Redirect } from 'react-router-dom';
+// import { toastr } from "react-redux-toastr";
 
 
 class PersonsDetail extends Component {
@@ -39,8 +20,14 @@ class PersonsDetail extends Component {
         const { firestore, match } = this.props;
         await firestore.setListener(`persons/${match.params.id}`);
 
-
+        // let person = await firestore.get(`persons/${match.params.id}`);
+        // if (!person.exists) {
+        //     history.push('/Persons')
+        //     toastr.error('Error!', 'Person not found');
+        // }
+        // // console.log(person)
     }
+
     async componentWillUnmount() {
         const { firestore, match } = this.props;
         await firestore.unsetListener(`persons/${match.params.id}`);
@@ -49,7 +36,8 @@ class PersonsDetail extends Component {
     render() {
         const { person, history } = this.props;
         if (typeof person === "undefined" || isEmpty(person)) {
-            history.push('/persons')
+            return <Redirect to={{ pathname: "/persons" }} />;
+            // history.push('/Persons')
         }
 
 
@@ -69,7 +57,28 @@ class PersonsDetail extends Component {
 
 }
 
+const mapStateProps = (state, ownProps) => {
+    const personId = ownProps.match.params.id;
 
-export default withFirestore(connect(mapState, actions)(PersonsDetail));
+    let person = {};
+    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
+
+        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {}
+    }
+
+    return {
+        person
+
+    }
+}
+
+
+const actions = {
+    deletePerson,
+
+};
+
+
+export default withFirestore(connect(mapStateProps, actions)(PersonsDetail));
 
 // export default withFirestore(connect(mapState, actions)([{ collection: 'persons' }])(PersonsDetail));
