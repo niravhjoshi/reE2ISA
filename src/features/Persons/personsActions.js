@@ -2,33 +2,49 @@ import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/
 import { toastr } from "react-redux-toastr";
 import {createNewPerson} from '../../app/common/utils/helpers'
 import cuid from "cuid";
+import firebase from '../../app/config/firebase';
+import { FETCH_PERSON,DELETE_PERSON } from "./personsConstants";
  
+// Direct firebase query to get data for persons
+export const getPersonDashboard = lastPerson =>async (dispatch, getState) => { 
+        const firestore = firebase.firestore();
+        const userId = getState().firebase['auth']['uid']
+        const personsref = firestore.collection('persons').where("createdUID", "==", userId).orderBy('created', 'desc').limit(2)
 
-// export const getPersonDB = () =>async (dispatch, getState) => { 
-//         const firestore = firebase.firestore();
-//         const userId = getState().firebase['auth']['uid']
-//         // console.log(userId)
-//         const personsref = firestore.collection('persons').where("createdUID", "==", userId);
+        try{
+            dispatch(asyncActionStart());
+            let startAfter = lastPerson && await firestore.collection('persons').doc(lastPerson.id).get();
+            //.where("createdUID", "==", userId).orderBy('created', 'desc')
+            console.log(startAfter)
+            let query;
 
-//         try{
-//             dispatch(asyncActionStart);
-//             let querySnap = await personsref.get()
-//             let persons=[]
-//             for(let i=0;i<querySnap.docs.length;i++){
-//                 let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
-//                 persons.push(per)
-//             }
-//         //     dispatch({type : FETCH_PERSON, payload : {persons}})
-//         //     dispatch(asyncActionFinish)
-//         }
+            lastPerson ? (query = personsref.startAfter(startAfter).limit(2)) : (query = personsref)
+            let querySnap = await query.get()
+            //If no person find then we will return querysnap as zero and asyncaction finish
+            if (querySnap.docs.length === 0) {
+                dispatch(asyncActionFinish());
+                return querySnap;
+              }
+
+            let persons=[]
+
+            for(let i=0;i<querySnap.docs.length;i++){
+                let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+                persons.push(per)
+            }
+            // console.log(persons)
+            dispatch({type : FETCH_PERSON, payload : {persons}})
+            dispatch(asyncActionFinish())
+            return querySnap;
+        }
         
     
-//         catch(error){
-//             console.log(error)
-//             dispatch(asyncActionError)
-//         }
+        catch(error){
+            console.log(error)
+            dispatch(asyncActionError())
+        }
     
-// }
+}
 
 
 
@@ -83,6 +99,7 @@ export const deletePerson = (personId) =>{
                 toastr.confirm(message, {
                 onOk: async() =>{ 
                              await firestore.delete(`persons/${personId}`,{personId:personId})
+                             dispatch({type : DELETE_PERSON, payload : {personId}})
                              dispatch(asyncActionFinish);
             
                             }

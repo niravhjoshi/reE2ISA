@@ -34,7 +34,7 @@ class PersonsDetail extends Component {
     }
 
     render() {
-        const { person, history } = this.props;
+        const { person } = this.props;
         if (typeof person === "undefined" || isEmpty(person)) {
             return <Redirect to={{ pathname: "/persons" }} />;
             // history.push('/Persons')

@@ -17,7 +17,7 @@ const updatePerson = (state,payload) =>{
 
 const deletePerson = (state,payload) =>{
     return [
-        ...state.filter(person => person.id !== payload.personId)
+        ...state.filter(persons => persons.id !== payload.personId)
     ]
 }
 
