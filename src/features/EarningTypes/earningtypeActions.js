@@ -1,8 +1,83 @@
 import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
-
-
+import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
+import firebase from '../../app/config/firebase';
+import {FETCH_PERSONDD_TYPE,FETCH_EAR_TYPE,DELETE_EAR_TYPE} from './earningtypeConstants';
         
+
+//Fetch person for state and use this state into other featers for getting person name in drop down 
+export const getPersonForDD =  async (dispatch,getState) => {
+    // let today = new Date();
+    const firestore = firebase.firestore();
+    const curreUser = firebase.auth().currentUser;
+    console.log(curreUser.uid)
+    const personsref = firestore.collection('persons').where("createdUID", "==", curreUser.uid);
+    console.log(personsref)
+
+    try{
+        dispatch(asyncActionStart);
+        let querySnap = await personsref.get()
+        let personsDD=[]
+        for(let i=0;i<querySnap.docs.length;i++){
+            let per = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+            personsDD.push(per)
+        }
+        console.log(personsDD)
+        dispatch({type : FETCH_PERSONDD_TYPE, payload : {personsDD}})
+        dispatch(asyncActionFinish)
+        //return querySnap;
+    }
+    
+
+    catch(error){
+        console.log(error)
+        dispatch(asyncActionError)
+    }
+
+};
+
+
+export const fetchEarningTypes = lastEarType => async (dispatch,getState) =>{
+    const firestore = firebase.firestore();
+    const curreUser = firebase.auth().currentUser;
+    const userId = getState().firebase['auth']['uid']
+    console.log(curreUser.uid)
+    const eartyperef = firestore.collection('earningTypes').where("createdUID", "==", userId).orderBy('created', 'desc').limit(5)
+    console.log(eartyperef)
+    try{
+        dispatch(asyncActionStart());
+        let startAfter = lastEarType && await firestore.collection('earningTypes').doc(lastEarType.id).get();
+        //.where("createdUID", "==", userId).orderBy('created', 'desc')
+        console.log(startAfter)
+        let query;
+
+        lastEarType ? (query = eartyperef.startAfter(startAfter).limit(5)) : (query = eartyperef)
+        let querySnap = await query.get()
+        //If no person find then we will return querysnap as zero and asyncaction finish
+        if (querySnap.docs.length === 0) {
+            dispatch(asyncActionFinish());
+            return querySnap;
+          }
+
+        let earTypes=[]
+
+        for(let i=0;i<querySnap.docs.length;i++){
+            let eartype = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
+            earTypes.push(eartype)
+        }
+        // console.log(persons)
+        dispatch({type : FETCH_EAR_TYPE, payload : {earTypes}})
+        dispatch(asyncActionFinish())
+        return querySnap;
+    }
+    
+
+    catch(error){
+        console.log(error)
+        dispatch(asyncActionError())
+    }
+
+}
 
 
 // export const getPersons = (userUid) =>
@@ -66,12 +141,16 @@ export const deleteEarningType = (earningTypeId) =>{
         // const firebase = getFirebase();
         // const user = firebase.auth().currentUser;
         const message = earningTypeId
-        ? 'Are you sure you want to delete the Person?'
+        ? 'Are you sure you want to delete the Earning Types?'
         : 'This , are you sure?';
+        dispatch(asyncActionStart);
         try{
             toastr.confirm(message, {
-                onOk: async() => 
+                onOk: async() => {
                              await firestore.delete(`earningTypes/${earningTypeId}`)
+                             dispatch({type : DELETE_EAR_TYPE, payload : {earningTypeId}})
+                             dispatch(asyncActionFinish);
+                            }
                              
                     
 

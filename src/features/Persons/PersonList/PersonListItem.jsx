@@ -7,7 +7,7 @@ class PersonListItem extends Component {
 
     render() {
 
-        const { person, deletePerson } = this.props;
+        const { person } = this.props;
 
         return (
             <Table celled>
@@ -33,7 +33,7 @@ class PersonListItem extends Component {
 
                         <Table.Cell collapsing>
                             <Button inverted color='teal' as={Link} to={`/persons/${person.id}`}>View</Button>
-                            <Button inverted color='red' onClick={() => deletePerson(person.id)}>Delete</Button>
+                            {/* <Button inverted color='red' onClick={() => deletePerson(person.id)}>Delete</Button> */}
                         </Table.Cell>
 
                     </Table.Row>

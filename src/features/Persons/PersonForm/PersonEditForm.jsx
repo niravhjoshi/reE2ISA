@@ -22,8 +22,8 @@ const actions = { createPerson, updatePerson, deletePerson };
 const mapState = (state, ownProps) => {
     const personId = ownProps.match.params.id;
     let person = {};
-    if (state.firestore.ordered.persons && state.firestore.ordered.persons.length > 0) {
-        person = state.firestore.ordered.persons.filter(person => person.id === personId)[0] || {};
+    if (state.persons && state.persons.length > 0) {
+        person = state.persons.filter(person => person.id === personId)[0] || {};
     }
 
 
@@ -69,6 +69,8 @@ class PersonEditForm extends Component {
         try {
             if (this.props.initialValues.id) {
                 this.props.updatePerson(values);
+
+
                 this.props.history.push(`/persons/${this.props.initialValues.id}`)
             }
             else {

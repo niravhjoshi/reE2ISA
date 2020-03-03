@@ -4,18 +4,18 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 class PersonList extends Component {
     render() {
-        const { persons, deletePerson, getNextPersons, morePersons, loading } = this.props;
+        const { loadedpersons, deletePerson, getNextPersons, morePersons, loading } = this.props;
         return (
             <Fragment>
 
-                {persons && persons.length !== 0 && (
+                {loadedpersons && loadedpersons.length !== 0 && (
                     <InfiniteScroll
                         pageStart={0}
                         initialLoad={false}
                         loadMore={getNextPersons}
                         hasMore={!loading && morePersons}
                     >
-                        {persons && persons.map(person => (
+                        {loadedpersons && loadedpersons.map(person => (
                             <PersonListItem key={person.id} person={person} deletePerson={deletePerson} />
                         ))}
                     </InfiniteScroll>

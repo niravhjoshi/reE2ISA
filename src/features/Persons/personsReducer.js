@@ -17,7 +17,8 @@ const updatePerson = (state,payload) =>{
 
 const deletePerson = (state,payload) =>{
     return [
-        ...state.filter(persons => persons.id !== payload.personId)
+        ...state.filter(persons => persons.id !== payload.personId),
+        
     ]
 }
 
@@ -26,10 +27,12 @@ const fetchPerson = (state,payload) =>{
     
 }
 
+
 export default createReducer(initState,{
     [CREATE_PERSON]: createPerson,
     [UPDATE_PERSON]: updatePerson ,
     [DELETE_PERSON]: deletePerson,
-    [FETCH_PERSON] : fetchPerson
+    [FETCH_PERSON] : fetchPerson,
+   
     
 } )

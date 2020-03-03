@@ -9,13 +9,20 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 
 class PersonDashboard extends Component {
+
+
+
     state = {
         morePersons: false,
         loadingInitial: true,
         loadedPersons: []
     }
+
+
     async componentDidMount() {
+        // await this.props.getPersonForDD();
         let next = await this.props.getPersonDashboard();
+
 
         // console.log(next)
         if (next && next.docs && next.docs.length > 1) {
@@ -24,11 +31,24 @@ class PersonDashboard extends Component {
                 loadingInitial: false
             })
         }
+        if (next && next.docs.length === 0) {
+            this.setState({
+
+                loadingInitial: false
+            })
+        }
+        if (next && next.docs.length === 1) {
+            this.setState({
+
+                loadingInitial: false
+            })
+        }
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         if (this.props.persons !== prevProps.persons) {
             this.setState({
+                // loadedPersons: [...this.props.persons]
                 loadedPersons: [...this.state.loadedPersons, ...this.props.persons]
             })
         }
@@ -39,9 +59,9 @@ class PersonDashboard extends Component {
     getNextPersons = async () => {
         const { persons } = this.props
         let lastPerson = persons && persons[persons.length - 1];
-        console.log(lastPerson)
+        //console.log(lastPerson)
         let next = await this.props.getPersonDashboard(lastPerson);
-        console.log(next);
+        //console.log(next);
         if (next && next.docs && next.docs.length <= 1) {
             this.setState({
                 morePersons: false
@@ -49,8 +69,9 @@ class PersonDashboard extends Component {
         }
     }
 
-    handleDeletePerson = personID => {
-        this.props.deletePerson(personID);
+    handleDeletePerson = (personID) => {
+        this.props.deletePerson(personID)
+
     }
 
 
@@ -62,7 +83,7 @@ class PersonDashboard extends Component {
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <PersonList loading={loading} persons={loadedPersons} morePersons={morePersons}
+                    <PersonList loading={loading} loadedpersons={loadedPersons} morePersons={morePersons}
                         getNextPersons={this.getNextPersons}
                         deletePerson={this.handleDeletePerson} />
 
