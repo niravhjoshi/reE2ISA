@@ -6,7 +6,7 @@ import { composeValidators, combineValidators, isRequired, hasLengthBetween } fr
 import { createEarningType, updateEarningType, deleteEarningType } from '../earningtypeActions';
 import TextInput from '../../../app/form/TextInput';
 import { withFirestore } from 'react-redux-firebase';
-import SelectInput from '../../../app/form/SelectInput';
+// import SelectInput from '../../../app/form/SelectInput';
 
 
 var PersonsArray = [
@@ -26,25 +26,26 @@ for (var i = 0; i < PersonsArray.length; i++) {
     // console.log(PersonsArray)
 
 }
-//console.log(PersonsArray)
+// console.log(PersonsArray)
 
 const actions = { createEarningType, updateEarningType, deleteEarningType };
 
 const mapState = (state, ownProps) => {
     const earningTypeID = ownProps.match.params.id;
     let earningType = {};
-    let personsName = [];
-    personsName = state.firestore.ordered.persons
-    if (state.firestore.ordered.earningTypes && state.firestore.ordered.earningTypes.length > 0) {
-        earningType = state.firestore.ordered.earningTypes.filter(earningType => earningType.id === earningTypeID)[0] || {};
+    // let personsName = [];
+    // personsName = state.firestore.ordered.persons
+
+    if (state.earningtypes && state.earningtypes.length > 0) {
+        earningType = state.earningtypes.filter(earningType => earningType.id === earningTypeID)[0] || {};
 
     }
 
     return {
         initialValues: earningType,
-        earningType,
-        auth: state.firebase.auth,
-        personsName
+        earningType
+        // auth: state.firebase.auth,
+        // personsName
 
     }
 
@@ -52,7 +53,7 @@ const mapState = (state, ownProps) => {
 
 const validate = combineValidators({
     EarningTypeName: composeValidators(
-        isRequired({ message: 'The FullName is needed' }),
+        isRequired({ message: 'The Earning Type is needed' }),
         hasLengthBetween(1, 50)({ message: 'Earning Type must be between 1 to 50 char' })
 
     )()
@@ -64,12 +65,12 @@ class EarningTypeForm extends Component {
 
     async componentDidMount() {
         const { firestore, match } = this.props;
-        await firestore.setListener(`earningTypes/${match.params.id}`);
+        await firestore.setListener(`earningtype/${match.params.id}`);
     }
 
     async componentWillUnmount() {
         const { firestore, match } = this.props;
-        await firestore.unsetListener(`earningTypes/${match.params.id}`);
+        await firestore.unsetListener(`earningtype/${match.params.id}`);
     }
 
     onFormSubmit = async values => {
@@ -91,21 +92,21 @@ class EarningTypeForm extends Component {
 
 
     render() {
-        const { history, initialValues, invalid, submitting, pristine, personsName } = this.props;
+        const { history, initialValues, invalid, submitting, pristine } = this.props;
 
-        personsName && console.log(personsName)
+        // personsName && console.log(personsName)
 
-        for (var i = 0; i < personsName.length; i++) {
-            personsName[i].key = personsName[i].id;
-            personsName[i].text = personsName[i].FullName;
-            personsName[i].value = personsName[i].FullName;
-            delete personsName[i].id;
-            delete personsName[i].FullName;
+        // for (var i = 0; i < personsName.length; i++) {
+        //     personsName[i].key = personsName[i].id;
+        //     personsName[i].text = personsName[i].FullName;
+        //     personsName[i].value = personsName[i].FullName;
+        //     delete personsName[i].id;
+        //     delete personsName[i].FullName;
 
-            // console.log(PersonsArray)
+        //     // console.log(PersonsArray)
 
-        }
-        console.log(personsName)
+        // }
+        // console.log(personsName)
 
 
 
@@ -117,7 +118,7 @@ class EarningTypeForm extends Component {
                         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)} autoComplete='off'>
 
                             <Field name='EarningType' component={TextInput} placeholder="Earning Types" />
-                            <Field name='PersonName' component={SelectInput} options={personsName} placeholder="Select Your Person" />
+                            {/* <Field name='PersonName' component={SelectInput} options={personsName} placeholder="Select Your Person" /> */}
 
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
                                 Submit

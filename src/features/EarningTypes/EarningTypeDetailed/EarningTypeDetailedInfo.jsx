@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withFirestore, isEmpty } from 'react-redux-firebase';
 import { format } from 'date-fns';
 import { deleteEarningType } from '../../EarningTypes/earningtypeActions';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 
 const mapState = (state, ownProps) => {
@@ -12,14 +12,14 @@ const mapState = (state, ownProps) => {
     const earningtypeid = ownProps.match.params.id;
     let earningtype = {};
 
-    if (state.firestore.ordered.earningTypes && state.firestore.ordered.earningTypes.length > 0) {
+    if (state.earningtypes && state.earningtypes.length > 0) {
 
-        earningtype = state.firestore.ordered.earningTypes.filter(earningtype => earningtype.id === earningtypeid)[0] || {}
+        earningtype = state.earningtypes.filter(earningtype => earningtype.id === earningtypeid)[0] || {}
     }
 
     return {
         earningtype,
-        auth: state.firebase.auth
+        // auth: state.firebase.auth
     }
 
 
@@ -48,10 +48,11 @@ class EarningTypeDetailedInfo extends Component {
 
     render() {
 
-        const { deleteEarningType, earningtype, history } = this.props;
+        const { deleteEarningType, earningtype } = this.props;
 
         if (typeof earningtype === "undefined" || isEmpty(earningtype)) {
-            history.push('/earningtypes')
+            return <Redirect to={{ pathname: "/earningtypes" }} />;
+            // history.push('/earningtypes')
         }
 
         return (

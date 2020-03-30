@@ -15,7 +15,7 @@ const PersonPhotos = ({ photos, deletePersonPhoto, setPersonMainPhoto, person })
             <Card.Group itemsPerRow={5}>
                 <Card>
                     <Image src={person.ImageURL || '/assets/images/user.png'} />
-                    <Button positive>Default Photo</Button>
+                    <Button positive >Default Photo</Button>
 
                 </Card>
                 {photos && filteredPhotos.map(photo => (

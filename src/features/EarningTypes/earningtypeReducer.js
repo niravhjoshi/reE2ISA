@@ -14,14 +14,14 @@ const createEartype = (state,payload) =>{
 
 const updateEartype = (state,payload) =>{
     return [
-        ...state.filter(eartype => eartype.id !== payload.eartype.id),payload.eartype
+        ...state.filter(earningType => earningType.id !== payload.earningType.id),payload.earningType
     ]
 }
 
 
 const deleteEartype = (state,payload) =>{
     return [
-        ...state.filter(earningTypes => earningTypes.id !== payload.eartypeid)
+        ...state.filter(earningtypes => earningtypes.id !== payload.earningTypeId),
     ]
 }
 

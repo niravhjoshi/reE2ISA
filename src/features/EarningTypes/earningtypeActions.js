@@ -2,16 +2,17 @@ import { toastr } from "react-redux-toastr";
 import {createNewEarningType} from '../../app/common/utils/helpers'
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 import firebase from '../../app/config/firebase';
-import {FETCH_PERSONDD_TYPE,FETCH_EAR_TYPE,DELETE_EAR_TYPE} from './earningtypeConstants';
+import {FETCH_PERSONDD_TYPE,FETCH_EAR_TYPE,DELETE_EAR_TYPE, UPDATE_EAR_TYPE} from './earningtypeConstants';
         
 
 //Fetch person for state and use this state into other featers for getting person name in drop down 
 export const getPersonForDD =  async (dispatch,getState) => {
     // let today = new Date();
     const firestore = firebase.firestore();
-    const curreUser = firebase.auth().currentUser;
+    //const curreUser = firebase.auth().currentUser;
+    const curreUser = getState().firebase['auth']['uid']
     console.log(curreUser.uid)
-    const personsref = firestore.collection('persons').where("createdUID", "==", curreUser.uid);
+    const personsref = firestore.collection('persons').where("createdUID", "==", curreUser.uid).orderBy('created', 'desc');
     console.log(personsref)
 
     try{
@@ -37,36 +38,39 @@ export const getPersonForDD =  async (dispatch,getState) => {
 };
 
 
-export const fetchEarningTypes = lastEarType => async (dispatch,getState) =>{
+export const getEarningTypesDD = lastEarType => async (dispatch,getState) =>{
     const firestore = firebase.firestore();
-    const curreUser = firebase.auth().currentUser;
+    // const curreUser = firebase.auth().currentUser;
     const userId = getState().firebase['auth']['uid']
-    console.log(curreUser.uid)
+    // console.log(curreUser.uid)
     const eartyperef = firestore.collection('earningTypes').where("createdUID", "==", userId).orderBy('created', 'desc').limit(5)
-    console.log(eartyperef)
+    // console.log(eartyperef)
     try{
         dispatch(asyncActionStart());
         let startAfter = lastEarType && await firestore.collection('earningTypes').doc(lastEarType.id).get();
         //.where("createdUID", "==", userId).orderBy('created', 'desc')
-        console.log(startAfter)
+        // console.log(startAfter)
         let query;
 
-        lastEarType ? (query = eartyperef.startAfter(startAfter).limit(5)) : (query = eartyperef)
+        lastEarType
+        ? (query = eartyperef.startAfter(startAfter).limit(5)) 
+        : (query = eartyperef)
         let querySnap = await query.get()
-        //If no person find then we will return querysnap as zero and asyncaction finish
+        //If no earningtypes find then we will return querysnap as zero and asyncaction finish
         if (querySnap.docs.length === 0) {
             dispatch(asyncActionFinish());
             return querySnap;
           }
 
-        let earTypes=[]
+
+        let EarningTypes=[]
 
         for(let i=0;i<querySnap.docs.length;i++){
             let eartype = {...querySnap.docs[i].data(),id:querySnap.docs[i].id}
-            earTypes.push(eartype)
+            EarningTypes.push(eartype)
         }
-        // console.log(persons)
-        dispatch({type : FETCH_EAR_TYPE, payload : {earTypes}})
+        // console.log(EarningTypes)
+        dispatch({type : FETCH_EAR_TYPE, payload : {EarningTypes}})
         dispatch(asyncActionFinish())
         return querySnap;
     }
@@ -125,11 +129,14 @@ export const updateEarningType = (earningType) =>{
 
         try{
             await firestore.update(`earningTypes/${earningType.id}`, earningType)
+            dispatch({type: UPDATE_EAR_TYPE,payload:{earningType}})
+            dispatch(asyncActionFinish);
             toastr.success('Upadate Sucess !','Earning Type Update Fine');
             }
 
         catch(error){
             toastr.error('Opps !','Something went wrong while update Earning Entry');
+            console.log(error);
         }
     }
     

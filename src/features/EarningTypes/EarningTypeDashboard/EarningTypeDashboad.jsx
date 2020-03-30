@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import EarningTypeList from '../EarningTypeList/EarningTypeList';
 import { connect } from 'react-redux';
-import { fetchEarningTypes, createEarningType, updateEarningType, deleteEarningType, getPersonForDD } from '../../EarningTypes/earningtypeActions';
+import { getEarningTypesDD, createEarningType, updateEarningType, deleteEarningType } from '../../EarningTypes/earningtypeActions';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 class EarningTypeDashboard extends Component {
@@ -17,38 +17,59 @@ class EarningTypeDashboard extends Component {
 
     async componentDidMount() {
         // await this.props.getPersonForDD();
-        let next = await this.props.fetchEarningTypes();
+        let next = await this.props.getEarningTypesDD();
+
 
 
         // console.log(next)
+        // console.log(this.props);
         if (next && next.docs && next.docs.length > 1) {
             this.setState({
                 moreEarTypes: true,
                 loadingInitial: false
             })
         }
+        if (next && next.docs.length === 0) {
+            this.setState({
+
+                loadingInitial: false
+            })
+        }
+        if (next && next.docs.length === 1) {
+            this.setState({
+
+                loadingInitial: false
+            })
+        }
 
     }
-    componentDidUpdate = (prevProps) => {
-        if (this.props.EarTypes !== prevProps.EarTypes) {
+
+
+
+    componentDidUpdate = prevProps => {
+        if (this.props.EarningTypes !== prevProps.EarningTypes) {
             this.setState({
-                loadedEarType: [...this.state.loadedEarType, ...this.props.EarTypes]
+                loadedEarTypes: [...this.state.loadedEarTypes, ...this.props.EarningTypes]
             })
         }
     }
 
     getNextEarningType = async () => {
-        const { earTypes } = this.props
-        let lastEarTypes = earTypes && earTypes[earTypes.length - 1];
-        console.log(lastEarTypes)
-        let next = await this.props.fetchEarningTypes(lastEarTypes);
-        console.log(next);
+        const { EarningTypes } = this.props
+        let lastEarTypes = EarningTypes && EarningTypes[EarningTypes.length - 1];
+
+        // console.log(lastEarTypes)
+
+        let next = await this.props.getEarningTypesDD(lastEarTypes);
+        // console.log(next);
+
         if (next && next.docs && next.docs.length <= 1) {
             this.setState({
                 moreEarTypes: false
             })
         }
     }
+
 
     handleDeleteEarningtype = eartypeid => {
         this.props.deleteEarningType(eartypeid);
@@ -67,12 +88,12 @@ class EarningTypeDashboard extends Component {
             <Grid>
                 <Grid.Column width={12}>
                     <EarningTypeList
-                        loading={loading} moreEarTypes={moreEarTypes}
-                        earningtypes={loadedEarTypes} getNextEarningType={this.getNextEarningType}
+                        loading={loading} loadedearningtypes={loadedEarTypes}
+                        moreEarTypes={moreEarTypes} getNextEarningType={this.getNextEarningType}
                         deleteEarningType={this.handleDeleteEarningtype} />
                 </Grid.Column>
-                <Grid.Column width={3}>
-
+                <Grid.Column width={10}>
+                    <Loader active={loading}></Loader>
                 </Grid.Column>
             </Grid>
 
@@ -83,18 +104,18 @@ class EarningTypeDashboard extends Component {
 
 const mapStatetoProps = (state) => ({
     auth: state.firebase.auth,
-    personsDD: state.personsDD,
+    // personsDD: state.personsDD,
     loading: state.async.loading,
-    EarningTypes: state.EarningTypes
+    EarningTypes: state.earningtypes
 })
 
 
 const actions = {
-    fetchEarningTypes,
+    getEarningTypesDD,
     createEarningType,
     updateEarningType,
     deleteEarningType,
-    getPersonForDD
+    // getPersonForDD
 
 }
 
